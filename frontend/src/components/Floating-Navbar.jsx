@@ -9,14 +9,17 @@ export default function FloatingNavbar() {
                 <a href="#" className="hover:text-purple-400 transition">Times</a>
                 <a href="#" className="hover:text-purple-400 transition">Recursos</a>
                 <a href="#" className="hover:text-purple-400 transition">Preços</a>
+                {/* <a href="#" className="hover:text-purple-400 transition">Assinatura</a> */}
             </nav>
             <div className="space-x-2 flex items-center">
                 <button className="px-4 py-1 rounded-full bg-purple-700 hover:bg-purple-800 transition shadow text-white">
                     Login
                 </button>
-
-                <button className="px-4 py-1 rounded-full border border-purple-700 text-purple-400 hover:bg-purple-700 hover:text-white transition">
+                {/* <button className="px-4 py-1 rounded-full border border-purple-700 text-purple-400 hover:bg-purple-700 hover:text-white transition">
                     Criar Conta
+                </button> */}
+                <button className="px-4 py-1 rounded-full border border-purple-700 text-purple-400 hover:bg-purple-700 hover:text-white transition">
+                    Assine Agora
                 </button>
             </div>
         </header>

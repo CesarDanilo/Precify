@@ -222,4 +222,3 @@ Este `README.md` serve como um guia abrangente para iniciar o desenvolvimento do
 
 ---
 
-Espero que esta documentação detalhada em Markdown seja exatamente o que você precisa para o seu `README.md`! Se tiver mais alguma dúvida ou precisar de algo específico, é só me dizer.

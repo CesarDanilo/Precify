@@ -3,7 +3,9 @@ import Logo from '../assets/logo.png'
 export default function FloatingNavbar() {
     return (
         <header className="fixed top-4 left-1/2 transform -translate-x-1/2 w-[90%] max-w-6xl flex justify-between items-center px-6 py-3 rounded-full backdrop-blur bg-gray-900/70 border border-gray-700/30 shadow-lg z-50">
-            <img src={Logo} alt="Logo do Validador" className="h-10 w-auto" />
+            <a href='/'>
+                <img src={Logo} alt="Logo do Validador" className="h-10 w-auto" />
+            </a>
             <nav className="space-x-4 hidden md:flex">
                 <a href="#" className="hover:text-purple-400 transition">Plataforma</a>
                 <a href="#" className="hover:text-purple-400 transition">Times</a>

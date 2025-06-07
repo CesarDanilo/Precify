@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Homepage from './pages/homepage';
 import SubscriptionPage from './pages/subscriptionsPage';
 import LoginPage from './pages/loginPage';
+import UserProfilePage from './pages/userProfilePage';
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
         <Route path="/" element={<Homepage />} />
         <Route path="/assinatura" element={<SubscriptionPage />} />
         <Route path="/acessar" element={<LoginPage />} />
+        <Route path="/perfil" element={<UserProfilePage />} />
       </Routes>
     </Router>
   );

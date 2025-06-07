@@ -9,7 +9,7 @@ export default function FloatingNavbar() {
             <nav className="space-x-4 hidden md:flex">
                 <a href="#" className="hover:text-purple-400 transition">Plataforma</a>
                 <a href="#" className="hover:text-purple-400 transition">Recursos</a>
-                <a href="#" className="hover:text-purple-400 transition">Perfil</a>
+                <a href="/perfil" className="hover:text-purple-400 transition">Perfil</a>
                 {/* <a href="#" className="hover:text-purple-400 transition">Preços</a> */}
                 {/* <a href="#" className="hover:text-purple-400 transition">Assinatura</a> */}
             </nav>

@@ -18,9 +18,11 @@ export default function FloatingNavbar() {
                 {/* <button className="px-4 py-1 rounded-full border border-purple-700 text-purple-400 hover:bg-purple-700 hover:text-white transition">
                     Criar Conta
                 </button> */}
-                <button className="px-4 py-1 rounded-full border border-purple-700 text-purple-400 hover:bg-purple-700 hover:text-white transition">
-                    Assine Agora
-                </button>
+                <a href='/assinatura'>
+                    <button className="px-4 py-1 rounded-full border border-purple-700 text-purple-400 hover:bg-purple-700 hover:text-white transition">
+                        Assine Agora
+                    </button>
+                </a>
             </div>
         </header>
     )

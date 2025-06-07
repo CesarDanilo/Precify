@@ -8,9 +8,9 @@ export default function FloatingNavbar() {
             </a>
             <nav className="space-x-4 hidden md:flex">
                 <a href="#" className="hover:text-purple-400 transition">Plataforma</a>
-                <a href="#" className="hover:text-purple-400 transition">Times</a>
                 <a href="#" className="hover:text-purple-400 transition">Recursos</a>
-                <a href="#" className="hover:text-purple-400 transition">Preços</a>
+                <a href="#" className="hover:text-purple-400 transition">Perfil</a>
+                {/* <a href="#" className="hover:text-purple-400 transition">Preços</a> */}
                 {/* <a href="#" className="hover:text-purple-400 transition">Assinatura</a> */}
             </nav>
             <div className="space-x-2 flex items-center">

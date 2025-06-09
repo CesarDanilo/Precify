@@ -7,8 +7,8 @@ export default function FloatingNavbar() {
                 <img src={Logo} alt="Logo do Validador" className="h-10 w-auto" />
             </a>
             <nav className="space-x-4 hidden md:flex">
-                <a href="#" className="hover:text-purple-400 transition">Plataforma</a>
-                <a href="#" className="hover:text-purple-400 transition">Recursos</a>
+                <a href="/" className="hover:text-purple-400 transition">Plataforma</a>
+                <a href="/produtos" className="hover:text-purple-400 transition">Buscar Produtos</a>
                 <a href="/perfil" className="hover:text-purple-400 transition">Perfil</a>
                 {/* <a href="#" className="hover:text-purple-400 transition">Preços</a> */}
                 {/* <a href="#" className="hover:text-purple-400 transition">Assinatura</a> */}

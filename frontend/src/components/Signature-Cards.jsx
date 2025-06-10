@@ -21,7 +21,7 @@ export default function SignatureCard({ plans }) {
                                 <li key={idx} className="text-sm text-gray-300">• {feature}</li>
                             ))}
                         </ul>
-                        <button className="px-4 py-2 rounded-full bg-purple-700 hover:bg-purple-800 transition text-white font-semibold shadow">
+                        <button onClick={() => window.location.href = '/checkout'} className="px-4 py-2 rounded-full bg-purple-700 hover:bg-purple-800 transition text-white font-semibold shadow">
                             Assinar
                         </button>
                     </div>

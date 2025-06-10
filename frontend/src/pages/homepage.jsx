@@ -3,6 +3,7 @@ import React from 'react';
 import FloatingNavbar from '../components/Floating-Navbar';
 import MainHomePage from '../components/Main-HomePage';
 import Footer from '../components/Footer';
+import PaymentFlags from '../components/PaymentFlags';
 
 const Homepage = () => {
     return (
@@ -18,6 +19,7 @@ const Homepage = () => {
 
             {/* Footer */}
             <Footer />
+            <PaymentFlags />
         </div>
     );
 };

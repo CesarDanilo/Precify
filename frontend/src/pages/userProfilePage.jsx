@@ -38,14 +38,24 @@ export default function UserProfilePage() {
                         </h1>
 
                         {user.plano ? (
-                            <div className="mt-4">
-                                <h2 className="text-sm text-gray-400">Plano Atual</h2>
-                                <p className="text-purple-400 font-semibold">
-                                    {user.plano.nome}
-                                </p>
-                                <p className="text-xs text-gray-500">
-                                    Contratado em {user.plano.contratadoEm}
-                                </p>
+                            <div className="mt-4 flex flex-col items-center gap-2">
+                                <div>
+                                    <h2 className="text-sm text-gray-400">Plano Atual</h2>
+                                    <p className="text-purple-400 font-semibold">
+                                        {user.plano.nome}
+                                    </p>
+                                    <p className="text-xs text-gray-500">
+                                        Contratado em {user.plano.contratadoEm}
+                                    </p>
+                                </div>
+                                <a href="/assinatura">
+                                    <button
+                                        type="button"
+                                        className="px-3 py-1 text-xs text-purple-400 border border-purple-400 rounded-full hover:bg-purple-700/20 transition"
+                                    >
+                                        Alterar Plano
+                                    </button>
+                                </a>
                             </div>
                         ) : (
                             <p className="mt-4 text-sm text-gray-500">Nenhum plano ativo</p>

@@ -66,7 +66,7 @@ const PaymentFlags = () => {
 
     return (
         <div className="flex flex-wrap items-center justify-center gap-3 py-4">
-            <span className="text-sm text-gray-400 mr-2">Aceitamos:</span>
+            {/* <span className="text-sm text-gray-400 mr-2">Aceitamos:</span> */}
 
             {cardBrands.map((brand) => (
                 <div

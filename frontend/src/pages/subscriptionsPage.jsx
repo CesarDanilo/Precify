@@ -1,4 +1,5 @@
 import SignatureCard from "../components/Signature-Cards";
+import PaymentFlags from "../components/PaymentFlags";
 
 export default function SubscriptionPage() {
     const plans = [
@@ -38,13 +39,18 @@ export default function SubscriptionPage() {
     ];
 
     return (
-        <main className="flex flex-col items-center justify-center min-h-screen bg-gray-950 text-gray-200 px-4 py-12">
-            <h1 className="text-4xl md:text-5xl font-bold text-purple-400 mb-4">Escolha seu Plano</h1>
-            <p className="text-gray-400 max-w-2xl text-center mb-10">
-                Comece hoje mesmo e maximize suas vendas com nosso Validador Inteligente!
-            </p>
+        <main className="flex flex-col items-center justify-center min-h-screen bg-gray-950 text-gray-200 px-4 py-12 gap-y-12">
+            <div className="text-center">
+                <h1 className="text-4xl md:text-5xl font-bold text-purple-400 mb-4">Escolha seu Plano</h1>
+                <p className="text-gray-400 max-w-2xl mx-auto">
+                    Comece hoje mesmo e maximize suas vendas com nosso Validador Inteligente!
+                </p>
+            </div>
 
             <SignatureCard plans={plans} />
+
+            {/* Descomente abaixo se quiser mostrar as bandeiras de pagamento */}
+            <PaymentFlags />
         </main>
     );
 }

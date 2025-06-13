@@ -5,6 +5,7 @@ import Logo from "../assets/logo.png";
 export default function ProductSearchPage() {
     const [searchTerm, setSearchTerm] = useState("");
     const [products, setProducts] = useState([]);
+    const [favorites, setFavorites] = useState([]);
 
     // Simulando uma lista de produtos
     const mockProducts = [
@@ -29,26 +30,11 @@ export default function ProductSearchPage() {
             link: "https://example.com/produtoC",
             image: "https://via.placeholder.com/150",
         },
-        {
-            id: 3,
-            name: "Produto C",
-            price: 70.0,
-            link: "https://example.com/produtoC",
-            image: "https://via.placeholder.com/150",
-        },
-        {
-            id: 3,
-            name: "Produto C",
-            price: 70.0,
-            link: "https://example.com/produtoC",
-            image: "https://via.placeholder.com/150",
-        },
     ];
 
     const handleSearch = (e) => {
         e.preventDefault();
 
-        // Aqui simularia um fetch à API, filtrando por nome
         const filteredProducts = mockProducts
             .filter((product) =>
                 product.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -56,6 +42,14 @@ export default function ProductSearchPage() {
             .sort((a, b) => a.price - b.price);
 
         setProducts(filteredProducts);
+    };
+
+    const toggleFavorite = (productId) => {
+        setFavorites((prev) =>
+            prev.includes(productId)
+                ? prev.filter((id) => id !== productId)
+                : [...prev, productId]
+        );
     };
 
     return (
@@ -90,7 +84,7 @@ export default function ProductSearchPage() {
                     {products.map((product) => (
                         <div
                             key={product.id}
-                            className="flex gap-4 backdrop-blur bg-gray-900/60 border border-gray-700/30 rounded-xl shadow p-4"
+                            className="flex gap-4 backdrop-blur bg-gray-900/60 border border-gray-700/30 rounded-xl shadow p-4 relative"
                         >
                             <img
                                 src={product.image}
@@ -99,7 +93,9 @@ export default function ProductSearchPage() {
                             />
                             <div className="flex flex-col justify-between">
                                 <h2 className="text-lg font-semibold">{product.name}</h2>
-                                <p className="text-purple-400 font-bold">R$ {product.price.toFixed(2)}</p>
+                                <p className="text-purple-400 font-bold">
+                                    R$ {product.price.toFixed(2)}
+                                </p>
                                 <a
                                     href={product.link}
                                     target="_blank"
@@ -109,10 +105,27 @@ export default function ProductSearchPage() {
                                     Ver no site
                                 </a>
                             </div>
+
+                            {/* Botão de Favoritar */}
+                            <button
+                                onClick={() => toggleFavorite(product.id)}
+                                className="absolute top-2 right-2 text-xl"
+                            >
+                                <span
+                                    className={`transition ${favorites.includes(product.id)
+                                            ? "text-red-500"
+                                            : "text-gray-500"
+                                        }`}
+                                >
+                                    {favorites.includes(product.id) ? "❤️" : "🤍"}
+                                </span>
+                            </button>
                         </div>
                     ))}
                     {products.length === 0 && (
-                        <p className="text-center text-gray-400">Nenhum produto encontrado.</p>
+                        <p className="text-center text-gray-400">
+                            Nenhum produto encontrado.
+                        </p>
                     )}
                 </div>
             </div>

@@ -18,7 +18,6 @@ function App() {
         <Route path="/produtos" element={<ProductSearchPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/favoritos" element={<FavoritesPage />} />
-
       </Routes>
     </Router>
   );

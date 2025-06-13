@@ -13,8 +13,8 @@ export default function FloatingNavbar({ chances = 3 }) {
             <nav className="space-x-4 hidden md:flex">
                 <a href="/" className="hover:text-purple-400 transition">Plataforma</a>
                 <a href="/produtos" className="hover:text-purple-400 transition">Buscar Produtos</a>
-                <a href="/perfil" className="hover:text-purple-400 transition">Perfil</a>
                 <a href="/favoritos" className="hover:text-purple-400 transition">Favoritos</a>
+                <a href="/perfil" className="hover:text-purple-400 transition">Perfil</a>
             </nav>
 
             {/* Área de botões com ícone e contador */}

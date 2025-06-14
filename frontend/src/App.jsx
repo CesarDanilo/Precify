@@ -6,6 +6,7 @@ import UserProfilePage from './pages/userProfilePage';
 import ProductSearchPage from './pages/ProductSearchPage';
 import CheckoutPage from './pages/CheckoutPage';
 import FavoritesPage from './pages/FavoritesPage';
+import MostSearchedProductsPage from './pages/MostSearchedProductsPage';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/produtos" element={<ProductSearchPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/favoritos" element={<FavoritesPage />} />
+        <Route path="/mais-pesquisados" element={<MostSearchedProductsPage />} />
       </Routes>
     </Router>
   );

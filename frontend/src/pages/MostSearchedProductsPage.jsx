@@ -1,5 +1,9 @@
 import React from "react";
 import FloatingNavbar from "../components/Floating-Navbar";
+import PlanUpgradePrompt from "../components/PlanUpgradePrompt";
+
+// Exemplo de variável de controle de acesso (simule por enquanto)
+const userHasPlan = false;
 
 export default function MostSearchedProductsPage() {
     const mostSearchedProducts = [
@@ -44,10 +48,13 @@ export default function MostSearchedProductsPage() {
         <div className="min-h-screen bg-gradient-to-b from-black via-gray-950 to-black px-4 text-gray-100 relative pt-32">
             <FloatingNavbar />
 
+            {/* Overlay caso o usuário não tenha plano */}
+            {!userHasPlan && <PlanUpgradePrompt />}
+
             {/* Efeito de fundo */}
             <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full h-60 bg-purple-700/10 blur-3xl rounded-full pointer-events-none"></div>
 
-            <div className="max-w-5xl mx-auto flex flex-col items-center">
+            <div className="max-w-5xl mx-auto flex flex-col items-center relative z-10">
                 <h1 className="text-3xl md:text-4xl font-bold text-purple-400 mb-6">
                     Produtos Mais Pesquisados
                 </h1>
@@ -64,8 +71,12 @@ export default function MostSearchedProductsPage() {
                                 className="w-24 h-24 object-cover rounded-lg"
                             />
                             <div className="flex flex-col justify-between">
-                                <h2 className="text-lg font-semibold">{index + 1}. {product.name}</h2>
-                                <p className="text-purple-400 text-sm">🔎 {product.searches} buscas</p>
+                                <h2 className="text-lg font-semibold">
+                                    {index + 1}. {product.name}
+                                </h2>
+                                <p className="text-purple-400 text-sm">
+                                    🔎 {product.searches} buscas
+                                </p>
                                 <a
                                     href={product.link}
                                     target="_blank"

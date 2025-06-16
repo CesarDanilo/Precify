@@ -1,8 +1,3 @@
----
-Entendido! Vou te fornecer a documentação completa e detalhada em **Markdown**, pronta para você copiar e colar diretamente no seu arquivo `README.md`.
-
----
-
 # 🚀 Projeto Micro SaaS: Validador Inteligente de Preços para E-commerce
 
 ---

@@ -4,6 +4,16 @@
 
 ```mermaid
 erDiagram
+    USUARIO ||--o{ PLANO : pertence
+    USUARIO ||--o{ FAVORITO : possui
+    USUARIO ||--o{ HISTORICO_PESQUISA : gera
+    PRODUTO ||--o{ CATEGORIA : pertence
+    PRODUTO ||--o{ PRECO : tem
+    PRODUTO ||--o{ FAVORITO : favoritado
+    PRODUTO ||--o{ HISTORICO_PESQUISA : pesquisado
+    LOJA ||--o{ PRECO : oferece
+    CATEGORIA ||--o{ CATEGORIA : subcategoria
+
     USUARIO {
         int id PK
         string nome
@@ -11,7 +21,7 @@ erDiagram
         string senha_hash
         datetime data_cadastro
         int plano_id FK
-        int tentativas_gratis_restantes DEFAULT 5
+        int tentativas_gratis_restantes
     }
     
     PLANO {
@@ -67,15 +77,5 @@ erDiagram
     CATEGORIA {
         int id PK
         string nome
-        int pai_id FK "Auto-relacionamento"
+        int pai_id FK
     }
-
-    USUARIO ||--o{ PLANO : pertence
-    USUARIO ||--o{ FAVORITO : possui
-    USUARIO ||--o{ HISTORICO_PESQUISA : gera
-    PRODUTO ||--o{ CATEGORIA : pertence
-    PRODUTO ||--o{ PRECO : tem
-    PRODUTO ||--o{ FAVORITO : favoritado
-    PRODUTO ||--o{ HISTORICO_PESQUISA : pesquisado
-    LOJA ||--o{ PRECO : oferece
-    CATEGORIA ||--o{ CATEGORIA : subcategoria

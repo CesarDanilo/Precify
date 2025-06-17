@@ -1,8 +1,7 @@
 # Diagrama do Banco de Dados - Comparador de Preços
 
-## Entidades Principais
+## Diagrama Completo ER
 
-### 1. USUARIO
 ```mermaid
 erDiagram
     USUARIO {
@@ -14,9 +13,7 @@ erDiagram
         int plano_id FK
         int tentativas_gratis_restantes DEFAULT 5
     }
-
-
-erDiagram
+    
     PLANO {
         int id PK
         string nome
@@ -25,8 +22,7 @@ erDiagram
         boolean pode_salvar_favoritos
         decimal preco_mensal
     }
-
-erDiagram
+    
     PRODUTO {
         int id PK
         string nome
@@ -35,16 +31,14 @@ erDiagram
         string imagem_url
         datetime data_cadastro
     }
-
-erDiagram
+    
     LOJA {
         int id PK
         string nome
         string url_site
         string logo_url
     }
-
-erDiagram
+    
     PRECO {
         int id PK
         int produto_id FK
@@ -54,16 +48,14 @@ erDiagram
         boolean disponivel
         string url_produto
     }
-
-erDiagram
+    
     FAVORITO {
         int id PK
         int usuario_id FK
         int produto_id FK
         datetime data_adicao
     }
-
-erDiagram
+    
     HISTORICO_PESQUISA {
         int id PK
         int usuario_id FK
@@ -71,15 +63,13 @@ erDiagram
         datetime data_pesquisa
         string termo_buscado
     }
-
-erDiagram
+    
     CATEGORIA {
         int id PK
         string nome
         int pai_id FK "Auto-relacionamento"
     }
 
-erDiagram
     USUARIO ||--o{ PLANO : pertence
     USUARIO ||--o{ FAVORITO : possui
     USUARIO ||--o{ HISTORICO_PESQUISA : gera

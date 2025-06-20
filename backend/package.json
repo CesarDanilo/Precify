@@ -6,9 +6,9 @@
   "scripts": {
     "dev": "nodemon src/server/script.js",
     "createmigrate": "npx sequelize-cli migration:generate --name ",
-    "migrate": " cross-env NODE_ENV=development npx sequelize-cli db:migrate ",
-    "migrateundo": "cross-env NODE_ENV=development npx sequelize db:migrate:undo",
-    "migrateundoall": "cross-env NODE_ENV=development npx sequelize db:migrate:undo:all",
+    "migrate": " npx sequelize-cli db:migrate ",
+    "migrateundo": "npx sequelize db:migrate:undo",
+    "migrateundoall": "npx sequelize db:migrate:undo:all",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

@@ -57,7 +57,7 @@ module.exports = {
     username: 'postgres',
     password: "root",
     database: 'microsaas',
-    host: '127.0.0.1',
+    host: 'db',
     port: 5432,
     dialect: 'postgres',
     logging: console.log

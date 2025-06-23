@@ -26,7 +26,7 @@ module.exports = {
   production: {
     username: dbConfigFromEnv.username || process.env.PGUSER || process.env.DB_USER || 'postgres',
     password: dbConfigFromEnv.password || process.env.PGPASSWORD || process.env.DB_PASSWORD || null,
-    database: dbConfigFromEnv.database || process.env.PGDATABASE || process.env.DB_NAME || 'todo_app',
+    database: dbConfigFromEnv.database || process.env.PGDATABASE || process.env.DB_NAME || 'microsaas',
     host: dbConfigFromEnv.host || process.env.PGHOST || process.env.DB_HOST || 'localhost',
     port: parseInt(dbConfigFromEnv.port || process.env.DB_PORT || '5432', 10),
     dialect: 'postgres',
@@ -56,7 +56,7 @@ module.exports = {
   development: {
     username: 'postgres',
     password: "root",
-    database: 'tododatabase',
+    database: 'microsaas',
     host: '127.0.0.1',
     port: 5432,
     dialect: 'postgres',

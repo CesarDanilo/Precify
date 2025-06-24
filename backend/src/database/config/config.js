@@ -54,23 +54,23 @@ module.exports = {
   //   logging: console.log
   // },
   development: {
-    username: 'postgres',
+    username: 'microsaas',
     password: "root",
     database: 'microsaas',
-    host: 'db',
+    host: 'localhost',
     port: 5432,
     dialect: 'postgres',
     logging: console.log
   },
-  test: {
-    username: process.env.DB_USER || 'postgres',
-    password: process.env.DB_PASSWORD || null,
-    database: process.env.DB_NAME || 'todo_app_test',
-    host: process.env.DB_HOST || 'localhost',
-    port: parseInt(process.env.DB_PORT || '5432', 10),
-    dialect: 'postgres',
-    logging: false
-  }
+  // test: {
+  //   username: process.env.DB_USER || 'postgres',
+  //   password: process.env.DB_PASSWORD || null,
+  //   database: process.env.DB_NAME || 'todo_app_test',
+  //   host: process.env.DB_HOST || 'localhost',
+  //   port: parseInt(process.env.DB_PORT || '5432', 10),
+  //   dialect: 'postgres',
+  //   logging: false
+  // }
 };
 
 // Verificação imediata (opcional)

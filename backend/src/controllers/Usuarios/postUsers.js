@@ -16,18 +16,39 @@ module.exports = async function postUsers(req, res) {
         const { nome, email, senha } = res.body;
 
         if (!nome || !email || !senha) {
-            return `❌ DADOS ENVIADOS INCORRETOS: NOME:${nome} | EMAIL:${email} | SENHA:${senha}`
+            return res.status(400).json({
+                msg: `❌ DADOS ENVIADOS INCORRETOS: NOME:${nome} | EMAIL:${email} | SENHA:${senha}`
+            })
         }
+
         const result = usuarioSchema.safeParse({ nome: nome, email: email, senha: senha });
 
         if (!result.success) {
-            console.log('❌ ERROS NA VALIDAÇÃO:', resultado.error.format());
-        } else {
-            console.log('✅ DADOS VALIDADOS COM SÚCESSO:', resultado.data);
+            return res.status(400).json({
+                msg: `❌ ERROS NA VALIDAÇÃO: ${result.error.format()}`
+            })
         }
 
-        console.log('✅ USUARIOS GRAVADOS COM SÚCESSO')
+        console.log(`✅ DADOS VALIDADOS COM SÚCESSO: ${result.data}`);
+
+        const data = {
+            id: 1, // NUMERO COM FINALIDADE A TESTES
+            nome: nome,
+            email: email,
+            senha: senha,
+            plano: 'Grátis',
+            status: true,
+            tentativas_gratis_restantes: 3
+        }
+
+        try {
+            let result = await Usuarios.create(data);
+            return res.status(200).json({ msg: `✅ USUARIOS GRAVADOS COM SÚCESSO: ${data}` })
+        } catch (error) {
+            return res.status(400).json({ msg: `❌ ERRO NA TENTATIVA DE GRAVAR USUARIOS: ${data}`, erro: error })
+        }
+
     } catch (error) {
-        console.log('❌ ERRO NA TENTATIVA DE GRAVAR USUARIOS:', error);
+        return res.status(400).json({ msg: `❌ ERRO NA TENTATIVA DE GRAVAR USUARIOS: ${data}`, erro: error })
     }
 }

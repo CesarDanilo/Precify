@@ -1,9 +1,12 @@
 'use strict';
-const { Model } = require('sequelize');
+const { Model, DataTypes } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
     class Produtos extends Model {
-
+        static associate(models) {
+            // this.hasMany(models.Favoritos, { foreignKey: 'id_usuario' });
+            // this.belongsTo(models.Planos, { foreignKey: 'plano_id' }); // Caso tenha a tabela 'planos'
+        }
     }
     Produtos.init({
         id: {
@@ -42,5 +45,7 @@ module.exports = (sequelize, DataTypes) => {
         tableName: 'produtos',
         timestamps: true,
     });
+
+    return Produtos;
 
 }

@@ -54,7 +54,7 @@ module.exports = {
   //   logging: console.log
   // },
   development: {
-    username: 'microsaas',
+    username: 'postgres',
     password: "root",
     database: 'microsaas',
     host: 'localhost',

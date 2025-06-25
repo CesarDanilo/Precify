@@ -1,19 +1,30 @@
-const { Usuarios } = require('../../database/models');
+const { Usuarios } = require('../../database/models/');
+const { Op } = require('sequelize');
 
-module.exports = async (req, res) => {
+const getUsers = async (req, res) => {
+    const { id, email } = req.query;
+
     try {
-        const usuarios = await Usuarios.findAll();
+        let where = {};
 
-        return res.status(200).json({
-            sucesso: true,
-            mensagem: 'Usuários encontrados com sucesso',
-            dados: usuarios,
+        if (id) where.id = id;
+        if (email) where.email = { [Op.iLike]: `%${email}%` };
+
+        const result = await Usuarios.findAll({
+            where,
+            attributes: ['id', 'nome', 'email', 'createdAt', 'updatedAt'], // usar snake_case
+            order: [['createdAt', 'DESC']] // corrigir ordenação
         });
-    } catch (erro) {
-        console.error('Erro ao buscar usuários:', erro);
-        return res.status(500).json({
-            sucesso: false,
-            mensagem: 'Erro ao buscar usuários',
+
+        return res.status(200).json({ data: result });
+
+    } catch (error) {
+        console.error('Erro ao buscar usuários:', error);
+        return res.status(400).json({
+            msg: 'Erro ao tentar listar usuários',
+            erro: error.message
         });
     }
 };
+
+module.exports = getUsers;

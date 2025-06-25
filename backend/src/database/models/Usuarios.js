@@ -1,11 +1,11 @@
 'use strict';
-const { Model } = require('sequelize');
+const { Model, DataTypes } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
     class Usuarios extends Model {
         static associate(models) {
-            this.hasMany(models.Favoritos, { foreignKey: 'id_usuario' });
-            this.belongsTo(models.Planos, { foreignKey: 'plano_id' }); // Caso tenha a tabela 'planos'
+            // this.hasMany(models.Favoritos, { foreignKey: 'id_usuario' });
+            // this.belongsTo(models.Planos, { foreignKey: 'plano_id' }); // Caso tenha a tabela 'planos'
         }
     }
 
@@ -51,7 +51,7 @@ module.exports = (sequelize, DataTypes) => {
     }, {
         sequelize,
         modelName: 'Usuarios',
-        tableName: 'usuarios',
+        tableName: 'users',
         timestamps: true,
     });
 

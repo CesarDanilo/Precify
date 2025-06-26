@@ -3,6 +3,8 @@ const { z } = require('zod');
 
 module.exports = async function postUsers(req, res) {
     try {
+        const { nome, email, senha } = req.body;
+
         const nomeSchema = z.string().min(4, 'Nome é obrigatório');
         const emailSchema = z.string().email('Email inválido');
         const senhaSchema = z.string().min(6, 'Senha deve ter pelo menos 6 caracteres');
@@ -12,8 +14,6 @@ module.exports = async function postUsers(req, res) {
             email: emailSchema,
             senha: senhaSchema
         })
-
-        const { nome, email, senha } = req.body;
 
         if (!nome || !email || !senha) {
             return res.status(400).json({
@@ -49,6 +49,6 @@ module.exports = async function postUsers(req, res) {
         }
 
     } catch (error) {
-        return res.status(400).json({ msg: `❌ ERRO NA TENTATIVA DE GRAVAR USUARIOS:`, erro: error })
+        return res.status(400).json({ msg: `❌ ERRO NA TENTATIVA DE GRAVAR USUARIOS:`, erro: error.message, data: req.body })
     }
 }

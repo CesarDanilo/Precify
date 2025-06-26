@@ -13,7 +13,7 @@ module.exports = async function postUsers(req, res) {
             senha: senhaSchema
         })
 
-        const { nome, email, senha } = res.body;
+        const { nome, email, senha } = req.body;
 
         if (!nome || !email || !senha) {
             return res.status(400).json({
@@ -49,6 +49,6 @@ module.exports = async function postUsers(req, res) {
         }
 
     } catch (error) {
-        return res.status(400).json({ msg: `❌ ERRO NA TENTATIVA DE GRAVAR USUARIOS: ${data}`, erro: error })
+        return res.status(400).json({ msg: `❌ ERRO NA TENTATIVA DE GRAVAR USUARIOS:`, erro: error })
     }
 }

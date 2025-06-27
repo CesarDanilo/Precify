@@ -31,7 +31,7 @@ module.exports = async function updateUsers(req, res) {
         }
 
         // 5. Atualiza (apenas campos presentes)
-        await usuario.update(dadosValidos);
+        await Usuarios.update(dadosValidos, { where: { id } });
 
         return res.status(200).json({
             msg: '✅ Usuário atualizado com sucesso!',

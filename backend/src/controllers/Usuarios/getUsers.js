@@ -12,7 +12,7 @@ const getUsers = async (req, res) => {
 
         const result = await Usuarios.findAll({
             where,
-            attributes: ['id', 'nome', 'email', 'plano_id', 'status', 'tentativas_gratis_restantes', 'createdAt', 'updatedAt'], // usar snake_case
+            attributes: ['id', 'nome', 'email', 'plano_id', 'status', 'senha', 'tentativas_gratis_restantes', 'createdAt', 'updatedAt'], // usar snake_case
             order: [['createdAt', 'DESC']] // corrigir ordenação
         });
 

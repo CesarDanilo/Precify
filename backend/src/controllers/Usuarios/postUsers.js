@@ -1,5 +1,6 @@
 const { Usuarios } = require('../../database/models/');
 const { v4: uuidv4 } = require('uuid');
+const bcrypt = require('bcryptjs');
 
 const { z } = require('zod');
 
@@ -32,7 +33,7 @@ module.exports = async function postUsers(req, res) {
         }
 
         console.log(`✅ DADOS VALIDADOS COM SÚCESSO: ${result.data}`);
-
+        senha = await bcrypt.hash(senha, 10);
         const data = {
             id: uuidv4(),
             nome: nome,

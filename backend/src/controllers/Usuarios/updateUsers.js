@@ -1,6 +1,6 @@
-const bcrypt = require('bcryptjs');           // se ainda não usou
+const bcrypt = require('bcryptjs');
 const { Usuarios } = require('../../database/models/');
-const { z } = require('zod');               // exemplo de validação
+const { z } = require('zod');
 
 module.exports = async function updateUsers(req, res) {
     const { id } = req.params;
@@ -11,7 +11,7 @@ module.exports = async function updateUsers(req, res) {
         email: z.string().email().optional(),
         senha: z.string().min(6).optional(),
         plano_id: z.number().int().optional(),
-        status: z.enum(['ATIVO', 'INATIVO']).optional(),
+        status: z.boolean([true, false]).optional(),
         tentativas_gratis_restantes: z.number().int().nonnegative().optional()
     });
 

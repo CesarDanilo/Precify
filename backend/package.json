@@ -23,6 +23,7 @@
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.37.7",
     "sequelize-cli": "^6.6.3",
+    "uuid": "^11.1.0",
     "zod": "^3.25.67"
   }
 }

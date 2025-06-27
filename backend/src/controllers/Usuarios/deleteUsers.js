@@ -1,4 +1,3 @@
-const { where } = require('sequelize');
 const { Usuarios } = require('../../database/models/');
 
 module.exports = async function (req, res) {

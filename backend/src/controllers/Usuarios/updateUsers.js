@@ -1,37 +1,48 @@
+const bcrypt = require('bcryptjs');           // se ainda não usou
 const { Usuarios } = require('../../database/models/');
+const { z } = require('zod');               // exemplo de validação
 
 module.exports = async function updateUsers(req, res) {
     const { id } = req.params;
+
+    // 1. Esquema de validação (pode ser mais completo)
+    const schema = z.object({
+        nome: z.string().min(4).optional(),
+        email: z.string().email().optional(),
+        senha: z.string().min(6).optional(),
+        plano_id: z.number().int().optional(),
+        status: z.enum(['ATIVO', 'INATIVO']).optional(),
+        tentativas_gratis_restantes: z.number().int().nonnegative().optional()
+    });
+
     try {
-
-        const result = await Usuarios.findByPk(id);
-        if (!result) {
-            return res.status(404).json({ msg: `ERRO! O USUSÁRIO: ${id} NÃO EXISTE!` })
+        // 2. Verifica se usuário existe
+        const usuario = await Usuarios.findByPk(id);
+        if (!usuario) {
+            return res.status(404).json({ msg: `Usuário ${id} não encontrado` });
         }
 
-        const { nome, email, senha, plano_id, status, tentativas_gratis_restantes } = req.body;
+        // 3. Valida e extrai apenas campos enviados
+        const dadosValidos = schema.parse(req.body);
 
-        if (!nome || !email || !plano_id || !status || !tentativas_gratis_restantes) {
-            return res.status(500).json({ msg: `DADOS INSERIDOS INVALIDOS ${nome},${email},${plano_id},${senha}, ${tentativas_gratis_restantes},` })
+        // 4. Hash da senha, se for atualizar
+        if (dadosValidos.senha) {
+            dadosValidos.senha = await bcrypt.hash(dadosValidos.senha, 10);
         }
 
-        const data = {
-            nome: nome,
-            email: email,
-            senha: senha || null,
-            plano_id: plano_id,
-            tentativas_gratis_restantes: tentativas_gratis_restantes
-        }
+        // 5. Atualiza (apenas campos presentes)
+        await usuario.update(dadosValidos);
 
-        try {
-            const atualizarUsuario = Usuarios.update(data, { where: { id } })
-        } catch (error) {
-            return res.status(404).json({ msg: 'ERRO! NÃO FOI POSSIVEL ATUALIZAR O USUÁRIO!', erro: error });
-        }
-
-        return res.status(201).json({ msg: '✅ USUÁRIO ATUALIZADO COM SÚCESSO!' })
+        return res.status(200).json({
+            msg: '✅ Usuário atualizado com sucesso!',
+            data: usuario               // opcional: devolve registro atualizado
+        });
 
     } catch (error) {
-        return res.status(400).json({ msg: 'ERRO! NÃO FOI POSSIVEL ATUALIZAR O USUÁRIO!', error: error })
+        console.error(error);
+        return res.status(500).json({
+            msg: 'Erro interno ao atualizar usuário',
+            error: error.message
+        });
     }
 }

@@ -1,4 +1,6 @@
 const { Usuarios } = require('../../database/models/');
+const { v4: uuidv4 } = require('uuid');
+
 const { z } = require('zod');
 
 module.exports = async function postUsers(req, res) {
@@ -32,7 +34,7 @@ module.exports = async function postUsers(req, res) {
         console.log(`✅ DADOS VALIDADOS COM SÚCESSO: ${result.data}`);
 
         const data = {
-            id: 1, // NUMERO COM FINALIDADE A TESTES
+            id: uuidv4(),
             nome: nome,
             email: email,
             senha: senha,

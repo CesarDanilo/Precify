@@ -19,10 +19,6 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        descricao: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
         max_favoritos: {
             type: DataTypes.INTEGER,
             allowNull: false,

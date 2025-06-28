@@ -13,7 +13,7 @@ module.exports = async function getProdutos(req, res) {
 
         const listaProdutos = await Produtos.findAll({
             where,
-            attributes: ['id', 'nome',]
+            attributes: ['id', 'nome', 'descricao', 'preco', 'imagem', 'createdAt', 'updatedAt']
         });
         if (listaProdutos.length === 0) return res.status(200).json({ msg: `NÃO POSSUI PRODUTOS CADASTRADOS!` });
 

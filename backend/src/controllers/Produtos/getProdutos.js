@@ -1,4 +1,5 @@
 const { Produtos } = require('../../database/models/');
+const { Op } = require('sequelize');
 
 module.exports = async function getProdutos(req, res) {
     const { id, nome } = req.query;

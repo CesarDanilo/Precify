@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "nodemon src/server/script.js",
     "createmigrate": "npx sequelize-cli migration:generate --name ",
+    "createdb": "npx sequelize-cli db:create",
     "migrate": " npx sequelize-cli db:migrate ",
     "migrateundo": "npx sequelize db:migrate:undo",
     "migrateundoall": "npx sequelize db:migrate:undo:all",

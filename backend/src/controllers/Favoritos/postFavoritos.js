@@ -1,15 +1,17 @@
 const { Favoritos } = require('../../database/models/');
 const { z } = require('zod');
 const { v4: uuidv4, parse } = require('uuid');
+const validaIdentificadores = require('../../functions/Favoritos/validaIdentificadores')
 
 module.exports = async function postFavoritos(req, res) {
-  // 1° Vamos validar as entradas que recebemos
+
   const favoritosSchemas = z.object({
     "id_usuario": z.string(),
     "id_produto": z.string()
   })
 
   const parsed = favoritosSchemas.safeParse(req.body);
+
   if (!parsed.success) {
     const erros = parsed.error.errors.map(err => `${err.path.join('.')}: ${err.message}`);
     return res.status(400).json({
@@ -18,6 +20,12 @@ module.exports = async function postFavoritos(req, res) {
     });
   }
 
+  const { id_produto, id_usuario } = parsed.data;
+
+  const validaMsg = await validaIdentificadores(id_produto, id_usuario);
+  if (validaMsg !== true) {
+    return res.status(400).json({ msg: `❌ ${validaMsg}` });
+  }
   parsed.data.id = uuidv4();
 
   try {

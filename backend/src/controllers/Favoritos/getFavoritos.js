@@ -1,15 +1,12 @@
 const { Favoritos } = require('../../database/models/');
-const { Op, where } = require('sequelize');
+const { Op } = require('sequelize');
 
 module.exports = async function getFavoritos(req, res) {
   const { id, nome } = req.query;
   try {
-    
+    let where = {};
     if (id) where.id = id;
     if (nome) where.nome = { [Op.iLike]: `%${nome}%` };
-
-    const result = await Favoritos.findByPk(id);
-    if (!result) return res.status(500).json({ msg: `ERRO AO BUSCAR FAVORITO!` });
 
     const favoritos = await Favoritos.findAll({
       where,

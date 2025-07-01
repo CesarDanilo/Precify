@@ -4,7 +4,7 @@ const { Op, where } = require('sequelize');
 module.exports = async function getFavoritos(req, res) {
   const { id, nome } = req.query;
   try {
-
+    
     if (id) where.id = id;
     if (nome) where.nome = { [Op.iLike]: `%${nome}%` };
 

@@ -1,10 +1,14 @@
+const { Favoritos } = require('../../models/Favoritos'); // Adjust the path as necessary
+
 export default async function updateFavoritos(req, res) {
     const { id } = req.params;
     const { favorito } = req.body;
-
+    if (!id || !favorito) {
+        return res.status(400).json({ message: 'ID and favorito data are required' });
+    }
     try {
         // Assuming you have a database function to update a favorite
-        const updatedFavorito = await updateFavoritoInDatabase(id, favorito);
+        const updatedFavorito = await Favoritos.update(id, favorito);
 
         if (!updatedFavorito) {
             return res.status(404).json({ message: 'Favorito not found' });

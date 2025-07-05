@@ -1,6 +1,6 @@
-const { Favoritos } = require('../../models/Favoritos'); // Adjust the path as necessary
+const { Favoritos } = require('../../database/models/'); // Adjust the path as necessary
 
-export default async function deleteFavoritos(req, res) {
+module.exports = async function deleteFavoritos(req, res) {
     const { id } = req.params;
 
     try {

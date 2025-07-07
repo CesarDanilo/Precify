@@ -1,8 +1,9 @@
+import { TableComponent } from "../components/Table/TableComponent";
+
 export function UsersContent() {
     return (
         <div>
-            <h1>Hello, Plans!</h1>
-            <p>Here you can manage your subscription Users.</p>
+            <TableComponent />
         </div>
     );
 }

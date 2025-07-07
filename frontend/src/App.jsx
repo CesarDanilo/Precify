@@ -7,7 +7,7 @@ import ProductSearchPage from './pages/ProductSearchPage';
 import CheckoutPage from './pages/CheckoutPage';
 import FavoritesPage from './pages/FavoritesPage';
 import MostSearchedProductsPage from './pages/MostSearchedProductsPage';
-import { Dashboard } from './admin/pages/Dashboard';
+import { AdminDashboard } from './admin/pages/AdminDashboard';
 
 function App() {
   return (
@@ -21,7 +21,7 @@ function App() {
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/favoritos" element={<FavoritesPage />} />
         <Route path="/mais-pesquisados" element={<MostSearchedProductsPage />} />
-        <Route path="/auth/admin/" element={<Dashboard />} />
+        <Route path="/auth/admin/" element={<AdminDashboard />} />
       </Routes>
     </Router>
   );

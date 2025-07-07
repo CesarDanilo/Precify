@@ -1,5 +1,5 @@
 import { Sidebar } from "../components/Sidebar"
-export function Dashboard() {
+export function AdminDashboard() {
     return (
         <div>
             <Sidebar />

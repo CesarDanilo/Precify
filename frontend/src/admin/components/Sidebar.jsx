@@ -5,6 +5,7 @@ export function Sidebar() {
     const links = [
         { name: 'dashboard', label: 'Dashboard', icon: HomeIcon },
         { name: 'usuarios', label: 'Usuarios', icon: UserGroupIcon },
+        { name: 'planos', label: 'Planos', icon: ShoppingBagIcon },
     ]
     return (
         <div>

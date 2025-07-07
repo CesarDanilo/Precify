@@ -1,4 +1,4 @@
-const { Favoritos } = require('../../models/Favoritos'); // Adjust the path as necessary
+import { Favoritos } from '../../database/models/'; // 🟢 inclua extensão .js
 
 export default async function deleteFavoritos(req, res) {
     const { id } = req.params;

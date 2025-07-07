@@ -1,7 +1,10 @@
+import React, { useState } from 'react';
 import { HomeIcon, ShoppingBagIcon, UserGroupIcon } from '@heroicons/react/24/outline';
 import { NavLink } from 'react-router-dom';
 
-export function Sidebar() {
+export function Sidebar({ setSelectItem }) {
+
+
     const links = [
         { name: 'dashboard', label: 'Dashboard', icon: HomeIcon },
         { name: 'usuarios', label: 'Usuarios', icon: UserGroupIcon },
@@ -15,7 +18,7 @@ export function Sidebar() {
                 </div>
                 <ul className="mt-4">
                     {links.map(link => (
-                        <li key={link.name} className="px-4 py-2 hover:bg-blue-700">
+                        <li key={link.name} onClick={setSelectItem(link.name)} className="px-4 py-2 hover:bg-blue-700">
                             <NavLink to={`/auth/admin/${link.name}`} className="flex items-center text-white">
                                 <link.icon className="w-5 h-5 mr-2" />
                                 {link.label}

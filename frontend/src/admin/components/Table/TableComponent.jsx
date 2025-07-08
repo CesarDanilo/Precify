@@ -56,14 +56,14 @@ export function TableComponent() {
     ];
 
     return (
-        <div className="w-full overflow-x-auto">
-            <table className="min-w-full">
-                <thead className="bg-black text-white">
+        <div className="w-full overflow-x-auto rounded-2xl shadow-lg border border-gray-00 bg-white">
+            <table className="min-w-full text-sm text-black">
+                <thead className="bg-gray-100 border-b border-gray-200">
                     <tr>
                         {titulos.map((titulo, index) => (
                             <th
                                 key={index}
-                                className="py-2 px-6 text-left font-medium text-sm tracking-wide text-white whitespace-nowrap"
+                                className="py-4 px-6 text-left font-medium tracking-wide text-gray-600 whitespace-nowrap uppercase"
                             >
                                 {titulo}
                             </th>
@@ -71,44 +71,58 @@ export function TableComponent() {
                     </tr>
                 </thead>
 
-                <tbody>
-                    {
-                        dados.map((data, index) => {
-                            return (
-                                <tr key={index}>
-                                    <td className="px-4 py-3">{data.id}</td>
-                                    <td className="px-4 py-3">{data.nome}</td>
-                                    <td className="px-4 py-3">{data.email}</td>
-                                    <td className="px-4 py-3">{data.plano_id ? data.plano_id : "Grátis"}</td>
-                                    <td className={`${data.status ? 'text-emerald-600 font-semibold' : 'text-red-600 font-semibold'}`} >{data.status ? 'Ativo' : 'Inativo'}</td>
-                                    <td className="text-center align-middle whitespace-nowrap">{data.tentativas_gratis_restantes}</td>
-                                    <td className="px-4 py-3">{data.telefone}</td>
-                                    <td className="px-4 py-3 whitespace-nowrap">{new Date(data.createdAt).toLocaleDateString('pt-BR')}</td>
-                                    <td className="px-4 py-3">
-                                        <div className="flex items-center justify-end gap-2">
-                                            {/* Botão Editar */}
-                                            <button
-                                                type="button"
-                                                aria-label="Editar"
-                                                className="p-2 rounded-md bg-transparent text-black hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30 transition"
-                                            >
-                                                <PencilSquareIcon className="w-5 h-5" />
-                                            </button>
+                <tbody className="divide-y divide-gray-200">
+                    {dados.map((data, index) => (
+                        <tr
+                            key={index}
+                            className="hover:bg-gray-50 transition-colors duration-200"
+                        >
+                            <td className="px-6 py-4 text-gray-700">{data.id}</td>
+                            <td className="px-6 py-4 text-gray-900">{data.nome}</td>
+                            <td className="px-6 py-4 text-gray-700">{data.email}</td>
+                            <td className="px-6 py-4 text-gray-600">
+                                {data.plano_id ? data.plano_id : "Grátis"}
+                            </td>
+                            <td className="px-6 py-4">
+                                <span
+                                    className={`text-xs font-semibold px-3 py-1 rounded-full ${data.status
+                                            ? 'bg-green-100 text-green-700'
+                                            : 'bg-red-100 text-red-700'
+                                        }`}
+                                >
+                                    {data.status ? 'Ativo' : 'Inativo'}
+                                </span>
+                            </td>
+                            <td className="text-center align-middle whitespace-nowrap text-gray-700">
+                                {data.tentativas_gratis_restantes}
+                            </td>
+                            <td className="px-6 py-4 text-gray-600">{data.telefone}</td>
+                            <td className="px-6 py-4 text-gray-500">
+                                {new Date(data.createdAt).toLocaleDateString('pt-BR')}
+                            </td>
+                            <td className="px-6 py-4">
+                                <div className="flex items-center justify-end gap-2">
+                                    {/* Botão Editar */}
+                                    <button
+                                        type="button"
+                                        aria-label="Editar"
+                                        className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors text-gray-700"
+                                    >
+                                        <PencilSquareIcon className="w-5 h-5" />
+                                    </button>
 
-                                            {/* Botão Deletar */}
-                                            <button
-                                                type="button"
-                                                aria-label="Deletar"
-                                                className="p-2 rounded-md bg-transparent text-black hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30 transition"
-                                            >
-                                                <TrashIcon className="w-5 h-5" />
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            )
-                        })
-                    }
+                                    {/* Botão Deletar */}
+                                    <button
+                                        type="button"
+                                        aria-label="Deletar"
+                                        className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors text-gray-700"
+                                    >
+                                        <TrashIcon className="w-5 h-5" />
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    ))}
                 </tbody>
             </table>
         </div>

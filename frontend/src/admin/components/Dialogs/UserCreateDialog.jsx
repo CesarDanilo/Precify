@@ -1,12 +1,12 @@
 import { XMarkIcon } from '@heroicons/react/24/outline';
 
-export function UserCreateDialog() {
+export function UserCreateDialog({ onclose }) {
     return (
         <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50">
             <div className="bg-gray-800/70 backdrop-blur-md border border-white/20 w-1/2 h-[90%] p-6 rounded-2xl shadow-xl text-white overflow-y-auto">
                 <div className="flex justify-between items-center mb-2">
                     <h2 className="text-xl">Criar usuario</h2>
-                    <XMarkIcon className="w-6 h-6 text-white cursor-pointer hover:text-gray-300" />
+                    <XMarkIcon onClick={onclose} className="w-6 h-6 text-white cursor-pointer hover:text-gray-300" />
                 </div>
                 <form className="space-y-4">
                     <div>

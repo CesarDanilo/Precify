@@ -1,7 +1,8 @@
-export function ButtonAdd() {
+export function ButtonAdd({ handleOpen }) {
     return (
         <button
             type="submit"
+            onClick={() => handleOpen()}
             className="flex items-center gap-2 bg-[#1447e6] hover:bg-[#0f3ac2] text-white font-medium px-5 py-2 rounded-xl shadow-md transition-all duration-200"
         >
             <svg

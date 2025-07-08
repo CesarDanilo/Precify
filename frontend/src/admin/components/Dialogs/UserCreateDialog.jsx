@@ -1,13 +1,38 @@
 export function UserCreateDialog() {
     return (
-        <div className="fixed inset-0 bg-opacity-30 backdrop-blur-sm flex items-center justify-center z-50">
-            <div className="bg-gray-800/70 backdrop-blur-md border border-white/20 w-1/2 h-1/2 p-6 rounded-2xl shadow-xl text-white">
+        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50">
+            <div className="bg-gray-800/70 backdrop-blur-md border border-white/20 w-1/2 h-[90%] p-6 rounded-2xl shadow-xl text-white overflow-y-auto">
                 <h2 className="text-xl mb-4">Create User</h2>
-                <form>
-                    {/* Seu formulário aqui */}
+                <form className="space-y-4">
+                    <div>
+                        <label className="block mb-1">Nome</label>
+                        <input type="text" name="nome" className="w-full p-2 rounded bg-white/10 border border-white/20 text-white" />
+                    </div>
+                    <div>
+                        <label className="block mb-1">Email</label>
+                        <input type="email" name="email" className="w-full p-2 rounded bg-white/10 border border-white/20 text-white" />
+                    </div>
+                    <div>
+                        <label className="block mb-1">Senha</label>
+                        <input type="password" name="senha" className="w-full p-2 rounded bg-white/10 border border-white/20 text-white" />
+                    </div>
+                    <div>
+                        <label className="block mb-1">Plano ID</label>
+                        <input type="text" name="plano_id" className="w-full p-2 rounded bg-white/10 border border-white/20 text-white" />
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <input type="checkbox" name="status" className="accent-white" />
+                        <label>Status (ativo)</label>
+                    </div>
+                    <div>
+                        <label className="block mb-1">Tentativas Grátis Restantes</label>
+                        <input type="number" name="tentativas_gratis_restantes" className="w-full p-2 rounded bg-white/10 border border-white/20 text-white" />
+                    </div>
+                    <button type="submit" className="mt-4 w-full bg-white text-gray-900 font-semibold py-2 rounded hover:bg-gray-200 transition">
+                        Criar Usuário
+                    </button>
                 </form>
             </div>
         </div>
-
     )
 }

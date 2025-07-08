@@ -1,7 +1,7 @@
 import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
 
 export function TableComponent() {
-    const titulos = ['#', 'Nome', 'Email', 'Plano', 'Status', 'Tentativas Gratuitas', 'Criado em', 'Atualizado em', 'Ações'];
+    const titulos = ['#', 'Nome', 'Email', 'Plano', 'Status', 'Tentativas Gratuitas', 'Criado em', 'Ações'];
     const dados = [
         {
             id: '1a2b3c4d',
@@ -56,7 +56,7 @@ export function TableComponent() {
     ];
 
     return (
-        <div className="w-full overflow-x-auto rounded-2xl shadow-lg border border-gray-00 bg-white">
+        <div className="w-full overflow-x-auto rounded-2xl shadow-lg  bg-white">
             <table className="min-w-full text-sm text-black">
                 <thead className="bg-gray-100 border-b border-gray-200">
                     <tr>
@@ -86,8 +86,8 @@ export function TableComponent() {
                             <td className="px-6 py-4">
                                 <span
                                     className={`text-xs font-semibold px-3 py-1 rounded-full ${data.status
-                                            ? 'bg-green-100 text-green-700'
-                                            : 'bg-red-100 text-red-700'
+                                        ? 'bg-green-100 text-green-700'
+                                        : 'bg-red-100 text-red-700'
                                         }`}
                                 >
                                     {data.status ? 'Ativo' : 'Inativo'}
@@ -96,7 +96,6 @@ export function TableComponent() {
                             <td className="text-center align-middle whitespace-nowrap text-gray-700">
                                 {data.tentativas_gratis_restantes}
                             </td>
-                            <td className="px-6 py-4 text-gray-600">{data.telefone}</td>
                             <td className="px-6 py-4 text-gray-500">
                                 {new Date(data.createdAt).toLocaleDateString('pt-BR')}
                             </td>

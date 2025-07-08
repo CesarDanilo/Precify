@@ -17,8 +17,18 @@ export function UserCreateDialog() {
                         <input type="password" name="senha" className="w-full p-2 rounded bg-white/10 border border-white/20 text-white" />
                     </div>
                     <div>
-                        <label className="block mb-1">Plano ID</label>
-                        <input type="text" name="plano_id" className="w-full p-2 rounded bg-white/10 border border-white/20 text-white" />
+                        <label className="block mb-1">Plano</label>
+                        <select
+                            name="plano_id"
+                            className="w-full p-2 rounded bg-white/10 border border-white/20 text-white"
+                            defaultValue=""
+                        >
+                            <option className="text-gray-900" value="" disabled>Selecione um plano</option>
+                            <option className="text-gray-900" value="gratis">Grátis</option>
+                            <option className="text-gray-900" value="basico">Básico</option>
+                            <option className="text-gray-900" value="pro">Pro</option>
+                            <option className="text-gray-900" value="empresarial">Empresarial</option>
+                        </select>
                     </div>
                     <div className="flex items-center gap-2">
                         <input type="checkbox" name="status" className="accent-white" />

@@ -7,6 +7,7 @@ import { fetchUsers } from "../functions/functionFetchUsers";
 export function UsersContent() {
     const [open, setOpen] = useState(false);
     const [users, setUsers] = useState([]);
+    const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
     const handleOpen = () => {
         setOpen(true);
@@ -27,7 +28,7 @@ export function UsersContent() {
             }
         };
         fetchData();
-    }, [open]);
+    }, [open, openDeleteDialog]);
 
     return (
         <div className="flex flex-col items-center justify-center w-full px-4">
@@ -39,7 +40,7 @@ export function UsersContent() {
             </div>
 
             <div className="w-full">
-                <TableComponent dados={users} />
+                <TableComponent dados={users} openDeleteDialog={openDeleteDialog} setOpenDeleteDialog={setOpenDeleteDialog} />
             </div>
         </div>
     );

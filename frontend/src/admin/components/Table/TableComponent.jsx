@@ -3,10 +3,9 @@ import { functionFetchPlanos } from '../../functions/functionFetchPlanos';
 import { useState, useEffect } from 'react';
 import { UserDeleteDialog } from '../Dialogs/UserDeleteDialog';
 
-export function TableComponent({ dados }) {
+export function TableComponent({ dados, openDeleteDialog, setOpenDeleteDialog }) {
     const titulos = ['Nome', 'Email', 'Plano', 'Status', 'Tentativas Gratuitas', 'Criado em', 'Ações'];
     const [planos, setPlanos] = useState([]);
-    const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
     const [idToDelete, setIdToDelete] = useState(null);
 
     useEffect(() => {

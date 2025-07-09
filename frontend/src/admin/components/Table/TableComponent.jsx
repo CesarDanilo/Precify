@@ -1,11 +1,13 @@
 import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { functionFetchPlanos } from '../../functions/functionFetchPlanos';
 import { useState, useEffect } from 'react';
-import { functionDeleteUser } from '../../functions/functionDeleteUser';
+import { UserDeleteDialog } from '../Dialogs/UserDeleteDialog';
 
 export function TableComponent({ dados }) {
     const titulos = ['Nome', 'Email', 'Plano', 'Status', 'Tentativas Gratuitas', 'Criado em', 'Ações'];
     const [planos, setPlanos] = useState([]);
+    const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+    const [idToDelete, setIdToDelete] = useState(null);
 
     useEffect(() => {
         const fetchPlanos = async () => {
@@ -20,12 +22,20 @@ export function TableComponent({ dados }) {
         fetchPlanos();
     }, []);
 
-    function handleDeleteUser(id) {
-        functionDeleteUser({ id })
+    function handleOpenDeleteDialog(id) {
+        setOpenDeleteDialog(true);
+        setIdToDelete(id);
+    }
+
+    function handleCloseDeleteDialog() {
+        setOpenDeleteDialog(false);
     }
 
     return (
         <div className="w-full overflow-x-auto rounded-2xl shadow-lg  bg-white">
+            {
+                openDeleteDialog && <UserDeleteDialog id={idToDelete} handleCloseDeleteDialog={handleCloseDeleteDialog} />
+            }
             <table className="min-w-full text-sm text-black">
                 <thead className="bg-gray-100 border-b border-gray-200">
                     <tr>
@@ -84,7 +94,7 @@ export function TableComponent({ dados }) {
                                     {/* Botão Deletar */}
                                     <button
                                         type="button"
-                                        onClick={() => handleDeleteUser(data.id)}
+                                        onClick={() => handleOpenDeleteDialog(data.id)}
                                         aria-label="Deletar"
                                         className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors text-gray-700"
                                     >

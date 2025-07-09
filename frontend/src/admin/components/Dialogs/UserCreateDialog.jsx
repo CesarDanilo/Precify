@@ -29,14 +29,7 @@ export function UserCreateDialog({ onclose }) {
         e.preventDefault();
         // const data = { nome, email, senha, planoId, status, tentativasGratisRestantes };
 
-        const data = {
-            nome,
-            email,
-            senha,
-            plano_id: planoId,
-            status,
-            tentativas_gratis_restantes: tentativasGratisRestantes
-        };
+        const data = { nome, email, senha, plano_id: planoId, status, tentativas_gratis_restantes: tentativasGratisRestantes };
 
         try {
             const response = await functionCreateUser({ dados: data });

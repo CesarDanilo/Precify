@@ -16,8 +16,8 @@ export function UserDeleteDialog({ id, handleCloseDeleteDialog }) {
     }
 
     return (
-        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50">
-            <div className="bg-gray-500/20 backdrop-blur-md border border-white/20 w-1/2 p-6 rounded-2xl shadow-xl text-white overflow-y-auto">
+        <div className="fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50">
+            <div className="bg-gray-500/90 backdrop-blur-md border border-white/20 w-1/2 p-6 rounded-2xl shadow-xl text-white overflow-y-auto">
                 <div className="flex justify-between items-center mb-2">
                     <h2 className="text-xl">Deletar usuário</h2>
                     <XMarkIcon onClick={() => { handleCloseDeleteDialog() }} className="w-6 h-6 text-white cursor-pointer hover:text-gray-300" />

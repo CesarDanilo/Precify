@@ -3,8 +3,8 @@ import { functionDeleteUser } from '../../functions/functionDeleteUser';
 
 export function UserDeleteDialog({ id, handleCloseDeleteDialog }) {
 
-    function handleDeleteUser() {
-        functionDeleteUser(id)
+    async function handleDeleteUser() {
+        await functionDeleteUser({ id })
             .then(response => {
                 console.log("Usuário deletado com sucesso:", response);
                 handleCloseDeleteDialog(); // Fecha o modal após a exclusão

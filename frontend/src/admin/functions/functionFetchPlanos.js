@@ -5,7 +5,7 @@ export function functionFetchPlanos() {
         return axios.get('http://localhost:4444/api/planos/getPlanos')
             .then(response => {
                 if (response.status === 200) {
-                    return response.data;
+                    return response.data.data;
                 } else {
                     throw new Error("Erro ao buscar planos");
                 }

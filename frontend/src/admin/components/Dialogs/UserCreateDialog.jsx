@@ -1,6 +1,7 @@
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { functionCreateUser } from '../../functions/functionCreateUsers';
+import { functionFetchPlanos } from '../../functions/functionFetchPlanos';
 
 export function UserCreateDialog({ onclose }) {
     const [nome, setNome] = useState('');
@@ -9,6 +10,18 @@ export function UserCreateDialog({ onclose }) {
     const [planoId, setPlanoId] = useState('');
     const [status, setStatus] = useState(false);
     const [tentativasGratisRestantes, setTentativasGratisRestantes] = useState(0);
+
+    useEffect(() => {
+        const fetchPlanos = async () => {
+            try {
+                const planos = await functionFetchPlanos();
+                console.log("Planos fetched successfully:", planos);
+            } catch (error) {
+                console.error("Error fetching planos:", error);
+            }
+        };
+        fetchPlanos();
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();

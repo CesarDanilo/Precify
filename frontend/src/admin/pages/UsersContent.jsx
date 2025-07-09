@@ -6,6 +6,7 @@ import { fetchUsers } from "../functions/functionFetchUsers";
 
 export function UsersContent() {
     const [open, setOpen] = useState(false);
+    const [users, setUsers] = useState([]);
 
     const handleOpen = () => {
         setOpen(true);
@@ -16,17 +17,17 @@ export function UsersContent() {
     }
 
     useEffect(() => {
-        const getUsers = async () => {
+        const fetchData = async () => {
             try {
-                const users = await fetchUsers();
-                console.log(users);
+                const data = await fetchUsers();
+                setUsers(data.data);
+                console.log("Users fetched successfully:", data.data);
             } catch (error) {
                 console.error("Error fetching users:", error);
             }
-        }
-
-        getUsers();
-    }, [])
+        };
+        fetchData();
+    }, []);
 
     return (
         <div className="flex flex-col items-center justify-center w-full px-4">
@@ -38,7 +39,7 @@ export function UsersContent() {
             </div>
 
             <div className="w-full">
-                <TableComponent />
+                <TableComponent dados={users} />
             </div>
         </div>
     );

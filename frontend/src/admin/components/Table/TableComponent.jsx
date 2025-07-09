@@ -1,59 +1,7 @@
 import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
 
-export function TableComponent() {
+export function TableComponent({ dados }) {
     const titulos = ['#', 'Nome', 'Email', 'Plano', 'Status', 'Tentativas Gratuitas', 'Criado em', 'Ações'];
-    const dados = [
-        {
-            id: '1a2b3c4d',
-            nome: 'João Silva',
-            email: 'joao@gmail.com',
-            senha: 'senha123',
-            plano_id: 'planoA',
-            status: true,
-            tentativas_gratis_restantes: 3,
-            createdAt: new Date('2025-07-01T10:00:00')
-        },
-        {
-            id: '2b3c4d5e',
-            nome: 'Maria Oliveira',
-            email: 'maria@gmail.com',
-            senha: 'senha456',
-            plano_id: null,
-            status: false,
-            tentativas_gratis_restantes: 0,
-            createdAt: new Date('2025-07-02T11:30:00')
-        },
-        {
-            id: '3c4d5e6f',
-            nome: 'Carlos Santos',
-            email: 'carlos@gmail.com',
-            senha: 'senha789',
-            plano_id: 'planoB',
-            status: true,
-            tentativas_gratis_restantes: 1,
-            createdAt: new Date('2025-07-03T09:45:00')
-        },
-        {
-            id: '4d5e6f7g',
-            nome: 'Ana Paula',
-            email: 'ana@gmail.com',
-            senha: 'senha321',
-            plano_id: null,
-            status: true,
-            tentativas_gratis_restantes: 2,
-            createdAt: new Date('2025-07-04T14:20:00')
-        },
-        {
-            id: '5e6f7g8h',
-            nome: 'Ricardo Lima',
-            email: 'ricardo@gmail.com',
-            senha: 'senha654',
-            plano_id: 'planoC',
-            status: false,
-            tentativas_gratis_restantes: 0,
-            createdAt: new Date('2025-07-05T08:10:00')
-        },
-    ];
 
     return (
         <div className="w-full overflow-x-auto rounded-2xl shadow-lg  bg-white">

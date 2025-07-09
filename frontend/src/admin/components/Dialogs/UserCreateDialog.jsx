@@ -16,7 +16,7 @@ export function UserCreateDialog({ onclose }) {
         const fetchPlanos = async () => {
             try {
                 const planos = await functionFetchPlanos();
-                setPlanos(planos)
+                setPlanos(planos);
                 console.log("Planos fetched successfully:", planos);
             } catch (error) {
                 console.error("Error fetching planos:", error);
@@ -37,6 +37,7 @@ export function UserCreateDialog({ onclose }) {
                 console.log("Usuário criado com sucesso:", response);
                 onclose(); // Fecha o modal após a criação do usuário
             }
+            onclose();
         } catch (error) {
             console.error("Erro ao criar usuário:", error);
             alert("Não foi possível criar o usuário. Tente novamente mais tarde.");

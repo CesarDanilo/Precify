@@ -11,7 +11,7 @@ module.exports = async function postUsers(req, res) {
             senha: z.string().min(6, 'Senha deve ter pelo menos 6 caracteres'),
             plano_id: z.string().optional(),
             status: z.boolean(),
-            tentativas_gratis_restantes: z.number()
+            tentativas_gratis_restantes: z.number().optional().default(3)
         });
 
         const validation = usuarioSchema.safeParse(req.body);

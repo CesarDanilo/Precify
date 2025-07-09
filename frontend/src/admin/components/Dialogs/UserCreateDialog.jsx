@@ -9,7 +9,7 @@ export function UserCreateDialog({ onclose }) {
     const [senha, setSenha] = useState('');
     const [planoId, setPlanoId] = useState('');
     const [status, setStatus] = useState(false);
-    const [tentativasGratisRestantes, setTentativasGratisRestantes] = useState(0);
+    const [tentativasGratisRestantes, setTentativasGratisRestantes] = useState(3);
     const [planos, setPlanos] = useState([]);
 
     useEffect(() => {
@@ -27,7 +27,17 @@ export function UserCreateDialog({ onclose }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const data = { nome, email, senha, planoId, status, tentativasGratisRestantes };
+        // const data = { nome, email, senha, planoId, status, tentativasGratisRestantes };
+
+        const data = {
+            nome,
+            email,
+            senha,
+            plano_id: planoId,
+            status,
+            tentativas_gratis_restantes: tentativasGratisRestantes
+        };
+
         try {
             const response = await functionCreateUser({ dados: data });
             if (response) {
@@ -38,6 +48,7 @@ export function UserCreateDialog({ onclose }) {
             console.error("Erro ao criar usuário:", error);
             alert("Não foi possível criar o usuário. Tente novamente mais tarde.");
         }
+        console.log("Dados do usuário a serem criados:", data);
     }
 
     return (
@@ -47,7 +58,7 @@ export function UserCreateDialog({ onclose }) {
                     <h2 className="text-xl">Criar usuario</h2>
                     <XMarkIcon onClick={onclose} className="w-6 h-6 text-white cursor-pointer hover:text-gray-300" />
                 </div>
-                <form className="space-y-4">
+                <form className="space-y-4" onSubmit={handleSubmit}>
                     <div>
                         <label className="block mb-1">Nome</label>
                         <input onChange={(e) => { setNome(e.target.value) }} type="text" name="nome" className="w-full p-2 rounded bg-white/10 border border-white/20 text-white" />
@@ -85,15 +96,15 @@ export function UserCreateDialog({ onclose }) {
                             </select>
                         </div>
                         <div className="flex items-center gap-2 align-middle">
-                            <input onChange={(e) => { setStatus(e.target.value) }} type="checkbox" name="status" className="accent-white" />
+                            <input onChange={(e) => setStatus(e.target.checked)} type="checkbox" name="status" className="accent-white" />
                             <label>Status (ativo)</label>
                         </div>
                     </div>
                     <div>
                         <label className="block mb-1">Tentativas Grátis Restantes</label>
-                        <input onChange={(e) => { setTentativasGratisRestantes(e.target.value) }} type="number" name="tentativas_gratis_restantes" className="w-full p-2 rounded bg-white/10 border border-white/20 text-white" />
+                        <input onChange={(e) => setTentativasGratisRestantes(Number(e.target.value))} type="number" name="tentativas_gratis_restantes" className="w-full p-2 rounded bg-white/10 border border-white/20 text-white" />
                     </div>
-                    <button onClick={() => { handleSubmit() }} type="submit" className="mt-4 w-full bg-white text-gray-900 font-semibold py-2 rounded hover:bg-gray-200 transition">
+                    <button type="submit" className="mt-4 w-full bg-white text-gray-900 font-semibold py-2 rounded hover:bg-gray-200 transition">
                         Criar Usuário
                     </button>
                 </form>

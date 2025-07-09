@@ -3,7 +3,7 @@ import { functionFetchPlanos } from '../../functions/functionFetchPlanos';
 import { useState, useEffect } from 'react';
 
 export function TableComponent({ dados }) {
-    const titulos = ['#', 'Nome', 'Email', 'Plano', 'Status', 'Tentativas Gratuitas', 'Criado em', 'Ações'];
+    const titulos = ['Nome', 'Email', 'Plano', 'Status', 'Tentativas Gratuitas', 'Criado em', 'Ações'];
     const [planos, setPlanos] = useState([]);
 
     useEffect(() => {
@@ -41,7 +41,7 @@ export function TableComponent({ dados }) {
                             key={index}
                             className="hover:bg-gray-50 transition-colors duration-200"
                         >
-                            <td className="px-6 py-4 text-gray-700">{data.id}</td>
+                            {/* <td className="px-6 py-4 text-gray-700">{data.id}</td> */}
                             <td className="px-6 py-4 text-gray-900">{data.nome}</td>
                             <td className="px-6 py-4 text-gray-700">{data.email}</td>
                             <td className="px-6 py-4 text-gray-600">

@@ -1,6 +1,7 @@
 import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { functionFetchPlanos } from '../../functions/functionFetchPlanos';
 import { useState, useEffect } from 'react';
+import { functionDeleteUser } from '../../functions/functionDeleteUser';
 
 export function TableComponent({ dados }) {
     const titulos = ['Nome', 'Email', 'Plano', 'Status', 'Tentativas Gratuitas', 'Criado em', 'Ações'];
@@ -18,6 +19,10 @@ export function TableComponent({ dados }) {
         };
         fetchPlanos();
     }, []);
+
+    function handleDeleteUser(id) {
+        functionDeleteUser({ id })
+    }
 
     return (
         <div className="w-full overflow-x-auto rounded-2xl shadow-lg  bg-white">
@@ -79,6 +84,7 @@ export function TableComponent({ dados }) {
                                     {/* Botão Deletar */}
                                     <button
                                         type="button"
+                                        onClick={() => handleDeleteUser(data.id)}
                                         aria-label="Deletar"
                                         className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors text-gray-700"
                                     >

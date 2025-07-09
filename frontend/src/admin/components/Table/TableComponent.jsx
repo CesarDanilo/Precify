@@ -46,7 +46,7 @@ export function TableComponent({ dados }) {
                             <td className="px-6 py-4 text-gray-700">{data.email}</td>
                             <td className="px-6 py-4 text-gray-600">
                                 {planos.length > 0
-                                    ? (planos.find(plano => plano.id === data.planoId)?.nome || 'Plano não encontrado')
+                                    ? (planos.find(plano => plano.id === data.plano_id)?.nome || 'Plano não encontrado')
                                     : 'Carregando planos...'}
                             </td>
                             <td className="px-6 py-4">

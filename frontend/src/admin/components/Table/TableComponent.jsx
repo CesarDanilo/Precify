@@ -1,7 +1,23 @@
 import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
+import { functionFetchPlanos } from '../../functions/functionFetchPlanos';
+import { useState, useEffect } from 'react';
 
 export function TableComponent({ dados }) {
     const titulos = ['#', 'Nome', 'Email', 'Plano', 'Status', 'Tentativas Gratuitas', 'Criado em', 'Ações'];
+    const [planos, setPlanos] = useState([]);
+
+    useEffect(() => {
+        const fetchPlanos = async () => {
+            try {
+                const planos = await functionFetchPlanos();
+                setPlanos(planos)
+                console.log("Planos fetched successfully:", planos);
+            } catch (error) {
+                console.error("Error fetching planos:", error);
+            }
+        };
+        fetchPlanos();
+    }, []);
 
     return (
         <div className="w-full overflow-x-auto rounded-2xl shadow-lg  bg-white">
@@ -29,7 +45,9 @@ export function TableComponent({ dados }) {
                             <td className="px-6 py-4 text-gray-900">{data.nome}</td>
                             <td className="px-6 py-4 text-gray-700">{data.email}</td>
                             <td className="px-6 py-4 text-gray-600">
-                                {data.plano_id ? data.plano_id : "Grátis"}
+                                {planos.length > 0
+                                    ? (planos.find(plano => plano.id === data.planoId)?.nome || 'Plano não encontrado')
+                                    : 'Carregando planos...'}
                             </td>
                             <td className="px-6 py-4">
                                 <span

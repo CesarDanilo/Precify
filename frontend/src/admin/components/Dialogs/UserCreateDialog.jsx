@@ -72,8 +72,10 @@ export function UserCreateDialog({ onclose }) {
                                 onChange={(e) => { setPlanoId(e.target.value) }}
                                 name="plano_id"
                                 className="w-full p-2 rounded bg-white/10 border border-white/20 text-white"
-                                defaultValue=""
-                            >{
+                                defaultValue={planoId}
+                            >
+                                <option className="text-gray-900" value="" disabled>Selecione um plano</option>
+                                {
                                     planos.map(plano => {
                                         return (
                                             <option key={plano.id} className="text-gray-900" value={plano.id}>

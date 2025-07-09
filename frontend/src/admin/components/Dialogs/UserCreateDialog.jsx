@@ -10,11 +10,13 @@ export function UserCreateDialog({ onclose }) {
     const [planoId, setPlanoId] = useState('');
     const [status, setStatus] = useState(false);
     const [tentativasGratisRestantes, setTentativasGratisRestantes] = useState(0);
+    const [planos, setPlanos] = useState([]);
 
     useEffect(() => {
         const fetchPlanos = async () => {
             try {
                 const planos = await functionFetchPlanos();
+                setPlanos(planos)
                 console.log("Planos fetched successfully:", planos);
             } catch (error) {
                 console.error("Error fetching planos:", error);
@@ -66,12 +68,20 @@ export function UserCreateDialog({ onclose }) {
                                 name="plano_id"
                                 className="w-full p-2 rounded bg-white/10 border border-white/20 text-white"
                                 defaultValue=""
-                            >
-                                <option className="text-gray-900" value="" disabled>Selecione um plano</option>
+                            >{
+                                    planos.map(plano => {
+                                        return (
+                                            <option key={plano.id} className="text-gray-900" value={plano.id}>
+                                                {plano.nome} - {plano.preco ? `R$ ${plano.preco}` : 'Grátis'}
+                                            </option>
+                                        )
+                                    })
+                                }
+                                {/* <option className="text-gray-900" value="" disabled>Selecione um plano</option>
                                 <option className="text-gray-900" value="gratis">Grátis</option>
                                 <option className="text-gray-900" value="basico">Básico</option>
                                 <option className="text-gray-900" value="pro">Pro</option>
-                                <option className="text-gray-900" value="empresarial">Empresarial</option>
+                                <option className="text-gray-900" value="empresarial">Empresarial</option> */}
                             </select>
                         </div>
                         <div className="flex items-center gap-2 align-middle">

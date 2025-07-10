@@ -10,7 +10,7 @@ module.exports = async function updateUsers(req, res) {
         nome: z.string().min(4).optional(),
         email: z.string().email().optional(),
         senha: z.string().min(6).optional(),
-        plano_id: z.string().int().optional(),
+        plano_id: z.string().optional(),
         status: z.boolean([true, false]).optional(),
         tentativas_gratis_restantes: z.number().int().nonnegative().optional()
     });

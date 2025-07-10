@@ -1,7 +1,7 @@
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { useEffect, useState } from 'react';
-import { functionCreateUser } from '../../functions/functionCreateUsers';
 import { functionFetchPlanos } from '../../functions/functionFetchPlanos';
+import { functionUpdateUser } from '../../functions/functionUpdateUser';
 
 export function UserUpdateDialog({ id, handleCloseUpdateDialog }) {
     const [nome, setNome] = useState('');
@@ -28,8 +28,9 @@ export function UserUpdateDialog({ id, handleCloseUpdateDialog }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         // const data = { nome, email, senha, planoId, status, tentativasGratisRestantes };
-
         const data = { nome, email, senha, plano_id: planoId, status, tentativas_gratis_restantes: tentativasGratisRestantes };
+        await functionUpdateUser({ id, data });
+        handleCloseUpdateDialog();
     }
 
     return (

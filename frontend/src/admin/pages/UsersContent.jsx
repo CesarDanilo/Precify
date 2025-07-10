@@ -8,6 +8,7 @@ export function UsersContent() {
     const [open, setOpen] = useState(false);
     const [users, setUsers] = useState([]);
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+    const [openUpdateDialog, setOpenUpdateDialog] = useState(false);
 
     const handleOpen = () => {
         setOpen(true);
@@ -28,7 +29,7 @@ export function UsersContent() {
             }
         };
         fetchData();
-    }, [open, openDeleteDialog]);
+    }, [open, openDeleteDialog, openUpdateDialog]);
 
     return (
         <div className="flex flex-col items-center justify-center w-full px-4">
@@ -40,7 +41,13 @@ export function UsersContent() {
             </div>
 
             <div className="w-full">
-                <TableComponent dados={users} openDeleteDialog={openDeleteDialog} setOpenDeleteDialog={setOpenDeleteDialog} />
+                <TableComponent
+                    dados={users}
+                    openDeleteDialog={openDeleteDialog}
+                    setOpenDeleteDialog={setOpenDeleteDialog}
+                    openUpdateDialog={openUpdateDialog}
+                    setOpenUpdateDialog={setOpenUpdateDialog}
+                />
             </div>
         </div>
     );

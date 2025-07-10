@@ -2,11 +2,13 @@ import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { functionFetchPlanos } from '../../functions/functionFetchPlanos';
 import { useState, useEffect } from 'react';
 import { UserDeleteDialog } from '../Dialogs/UserDeleteDialog';
+import { UserUpdateDialog } from '../Dialogs/UserUpdateDialog';
 
-export function TableComponent({ dados, openDeleteDialog, setOpenDeleteDialog }) {
+export function TableComponent({ dados, openDeleteDialog, setOpenDeleteDialog, openUpdateDialog, setOpenUpdateDialog }) {
     const titulos = ['Nome', 'Email', 'Plano', 'Status', 'Tentativas Gratuitas', 'Criado em', 'Ações'];
     const [planos, setPlanos] = useState([]);
     const [idToDelete, setIdToDelete] = useState(null);
+    const [idToUpdate, setIdToUpdate] = useState(null);
 
     useEffect(() => {
         const fetchPlanos = async () => {
@@ -30,10 +32,24 @@ export function TableComponent({ dados, openDeleteDialog, setOpenDeleteDialog })
         setOpenDeleteDialog(false);
     }
 
+    // function to handle opening the update dialog
+    // and setting the id to update
+    function handleOpenUpdateDialog(id) {
+        setOpenUpdateDialog(true);
+        setIdToUpdate(id);
+    }
+
+    function handleCloseUpdateDialog() {
+        setOpenUpdateDialog(false);
+    }
+
     return (
         <div className="w-full overflow-x-auto rounded-2xl shadow-lg  bg-white">
             {
                 openDeleteDialog && <UserDeleteDialog id={idToDelete} handleCloseDeleteDialog={handleCloseDeleteDialog} />
+            }
+            {
+                openUpdateDialog && <UserUpdateDialog id={idToUpdate} handleCloseUpdateDialog={handleCloseUpdateDialog} />
             }
             <table className="min-w-full text-sm text-black">
                 <thead className="bg-gray-100 border-b border-gray-200">
@@ -84,6 +100,7 @@ export function TableComponent({ dados, openDeleteDialog, setOpenDeleteDialog })
                                     {/* Botão Editar */}
                                     <button
                                         type="button"
+                                        onClick={() => handleOpenUpdateDialog(data.id)}
                                         aria-label="Editar"
                                         className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors text-gray-700"
                                     >

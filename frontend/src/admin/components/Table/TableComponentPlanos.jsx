@@ -31,7 +31,7 @@ export function TableComponentPlanos({ dados = [] }) {
                                 {data.max_comparacoes_diarias}
                             </td>
                             <td className="text-center align-middle whitespace-nowrap text-gray-700">
-                                {data.pode_salvar_favoritos}
+                                {data.pode_salvar_favoritos ? 'Sim' : 'Não'}
                             </td>
                             <td className="text-center align-middle whitespace-nowrap text-gray-700">
                                 {data.preco}

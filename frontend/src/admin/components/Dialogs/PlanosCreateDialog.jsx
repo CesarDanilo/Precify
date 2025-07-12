@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { functionCreatePlano } from '../../functions/functionCreatePlano'; // você precisa criar essa função no backend
 
 export function PlanosCreateDialog({ onclose }) {
-    const [id, setId] = useState('');
     const [nome, setNome] = useState('');
     const [maxFavoritos, setMaxFavoritos] = useState(0);
     const [maxComparacoesDiarias, setMaxComparacoesDiarias] = useState(0);
@@ -14,7 +13,6 @@ export function PlanosCreateDialog({ onclose }) {
         e.preventDefault();
 
         const data = {
-            id,
             nome,
             max_favoritos: maxFavoritos,
             max_comparacoes_diarias: maxComparacoesDiarias,

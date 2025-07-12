@@ -1,4 +1,4 @@
-import { ButtonAdd } from "../components/Buttons/buttonsAdd";
+import { ButtonAdd } from "../components/Buttons/ButtonsAdd";
 import { TableComponent } from "../components/Table/TableComponent";
 import { UserCreateDialog } from "../components/Dialogs/UserCreateDialog";
 import { useEffect, useState } from "react";

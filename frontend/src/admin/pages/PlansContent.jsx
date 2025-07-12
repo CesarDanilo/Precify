@@ -19,7 +19,7 @@ export function PlansContent() {
             }
         };
         fetchPlanos();
-    }, []);
+    }, [open]);
 
     function handleOpen() {
         setOpen(true);

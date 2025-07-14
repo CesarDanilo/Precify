@@ -9,8 +9,8 @@ module.exports = async function postUsers(req, res) {
             nome: z.string().min(4, 'Nome é obrigatório'),
             email: z.string().email('Email inválido'),
             senha: z.string().min(6, 'Senha deve ter pelo menos 6 caracteres'),
-            plano_id: z.string().optional(),
-            status: z.boolean(),
+            plano_id: z.string().optional().default('421bd7f1-15e6-470a-9865-3843b632d758'),
+            status: z.boolean().default(true),
             tentativas_gratis_restantes: z.number().optional().default(3)
         });
 

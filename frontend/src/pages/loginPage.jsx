@@ -1,20 +1,55 @@
-// src/pages/LoginPage.jsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FloatingNavbar from "../components/Floating-Navbar";
 import Logo from "../assets/logo.png";
 import { createUserAccount } from "../services/UserAccount/functionUserCreateAccount";
+import { fetchPlanos } from "../services/UserAccount/functionFetchPlanos";
 
 export default function LoginPage() {
     const [isRegister, setIsRegister] = useState(false);
+    const [planos, setPlanos] = useState([]);
     const [senha2, setSenha2] = useState("");
     const [userData, setUserData] = useState({
         nome: "",
         email: "",
-        plano_id: "421bd7f1-15e6-470a-9865-3843b632d758", // ✅ corrigido aqui
+        plano_id: "",
         status: true,
         senha: "",
-        tentativas_gratis_restantes: 3
+        tentativas_gratis_restantes: 3,
     });
+
+    useEffect(() => {
+        // Buscar planos apenas se for registro
+        if (isRegister) {
+            const fetchPlanosData = async () => {
+                try {
+                    const data = await fetchPlanos();
+                    setPlanos(data);
+                    console.log("BUSQUEI NO BANCO OS PLANOS: ", data);
+
+                    const planoGratis = data.find(
+                        (plano) =>
+                            plano.nome?.toLowerCase().includes("grátis") ||
+                            plano.nome?.toLowerCase().includes("gratis") ||
+                            plano.is_free === true // caso exista um campo is_free
+                    );
+
+                    if (planoGratis) {
+                        setUserData((prev) => ({
+                            ...prev,
+                            plano_id: planoGratis.id,
+                        }));
+                        console.log("PLANO GRÁTIS ENCONTRADO:", planoGratis);
+                    } else {
+                        console.warn("⚠️ Nenhum plano grátis encontrado!");
+                    }
+                } catch (err) {
+                    console.error("Erro ao buscar planos:", err);
+                }
+            };
+
+            fetchPlanosData();
+        }
+    }, [isRegister]);
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -23,12 +58,18 @@ export default function LoginPage() {
                 alert("As senhas não coincidem!");
                 return;
             }
+
+            if (!userData.plano_id) {
+                alert("Plano gratuito não identificado. Tente novamente mais tarde.");
+                return;
+            }
+
             createUserAccount(userData)
-                .then(response => {
+                .then((response) => {
                     console.log("Conta criada com sucesso:", response);
                     // Redirecionar ou mostrar mensagem de sucesso
                 })
-                .catch(error => {
+                .catch((error) => {
                     console.error("Erro ao criar conta:", error);
                     alert("Erro ao criar conta. Tente novamente.");
                 });

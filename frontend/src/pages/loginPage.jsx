@@ -3,9 +3,12 @@ import FloatingNavbar from "../components/Floating-Navbar";
 import Logo from "../assets/logo.png";
 import { createUserAccount } from "../services/UserAccount/functionUserCreateAccount";
 import { fetchPlanos } from "../services/UserAccount/functionFetchPlanos";
+import { useNavigate } from 'react-router-dom';
 
 export default function LoginPage() {
     const [isRegister, setIsRegister] = useState(false);
+    const [errors, setErrors] = useState({});
+    const navigate = useNavigate();
     const [planos, setPlanos] = useState([]);
     const [senha2, setSenha2] = useState("");
     const [userData, setUserData] = useState({
@@ -68,10 +71,16 @@ export default function LoginPage() {
                 .then((response) => {
                     console.log("Conta criada com sucesso:", response);
                     // Redirecionar ou mostrar mensagem de sucesso
+                    navigate('/');
                 })
+
                 .catch((error) => {
-                    console.error("Erro ao criar conta:", error);
-                    alert("Erro ao criar conta. Tente novamente.");
+                    if (error.type === 'validation') {
+                        setErrors(error.errors); // <- Aqui você define os erros por campo
+                    } else {
+                        console.error("Erro ao criar conta:", error);
+                        alert(`Erro ao criar conta. ${error.message}`);
+                    }
                 });
         } else {
             console.log("Login com dados:", userData);
@@ -106,6 +115,7 @@ export default function LoginPage() {
                                 placeholder="Digite seu nome"
                                 className="w-full px-4 py-2 rounded-lg bg-gray-800/50 border border-gray-700/30 focus:outline-none focus:ring-2 focus:ring-purple-500/50 text-gray-100 placeholder-gray-500"
                             />
+                            {errors.nome && <p className="text-red-500 text-sm mt-1">{errors.nome}</p>}
                         </div>
                     )}
 
@@ -120,6 +130,7 @@ export default function LoginPage() {
                             placeholder="Digite seu email"
                             className="w-full px-4 py-2 rounded-lg bg-gray-800/50 border border-gray-700/30 focus:outline-none focus:ring-2 focus:ring-purple-500/50 text-gray-100 placeholder-gray-500"
                         />
+                        {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
                     </div>
 
                     <div>
@@ -133,6 +144,7 @@ export default function LoginPage() {
                             placeholder="Digite sua senha"
                             className="w-full px-4 py-2 rounded-lg bg-gray-800/50 border border-gray-700/30 focus:outline-none focus:ring-2 focus:ring-purple-500/50 text-gray-100 placeholder-gray-500"
                         />
+                        {errors.senha && <p className="text-red-500 text-sm mt-1">{errors.senha}</p>}
                     </div>
 
                     {isRegister && (
@@ -147,6 +159,7 @@ export default function LoginPage() {
                                 placeholder="Confirme sua senha"
                                 className="w-full px-4 py-2 rounded-lg bg-gray-800/50 border border-gray-700/30 focus:outline-none focus:ring-2 focus:ring-purple-500/50 text-gray-100 placeholder-gray-500"
                             />
+                            {errors.senha && <p className="text-red-500 text-sm mt-1">{errors.senha}</p>}
                         </div>
                     )}
 

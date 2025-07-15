@@ -4,13 +4,16 @@ import Logo from "../assets/logo.png";
 import { createUserAccount } from "../services/UserAccount/functionUserCreateAccount";
 import { fetchPlanos } from "../services/UserAccount/functionFetchPlanos";
 import { useNavigate } from 'react-router-dom';
+import { Popup } from "../components/popup";
 
 export default function LoginPage() {
     const [isRegister, setIsRegister] = useState(false);
     const [errors, setErrors] = useState({});
-    const navigate = useNavigate();
     const [planos, setPlanos] = useState([]);
     const [senha2, setSenha2] = useState("");
+    const [showPopup, setShowPopup] = useState(false);
+    const navigate = useNavigate();
+
     const [userData, setUserData] = useState({
         nome: "",
         email: "",
@@ -21,27 +24,20 @@ export default function LoginPage() {
     });
 
     useEffect(() => {
-        // Buscar planos apenas se for registro
         if (isRegister) {
             const fetchPlanosData = async () => {
                 try {
                     const data = await fetchPlanos();
                     setPlanos(data);
-                    console.log("BUSQUEI NO BANCO OS PLANOS: ", data);
 
-                    const planoGratis = data.find(
-                        (plano) =>
-                            plano.nome?.toLowerCase().includes("grátis") ||
-                            plano.nome?.toLowerCase().includes("gratis") ||
-                            plano.is_free === true // caso exista um campo is_free
+                    const planoGratis = data.find((plano) =>
+                        plano.nome?.toLowerCase().includes("grátis") ||
+                        plano.nome?.toLowerCase().includes("gratis") ||
+                        plano.is_free === true
                     );
 
                     if (planoGratis) {
-                        setUserData((prev) => ({
-                            ...prev,
-                            plano_id: planoGratis.id,
-                        }));
-                        console.log("PLANO GRÁTIS ENCONTRADO:", planoGratis);
+                        setUserData((prev) => ({ ...prev, plano_id: planoGratis.id }));
                     } else {
                         console.warn("⚠️ Nenhum plano grátis encontrado!");
                     }
@@ -54,11 +50,18 @@ export default function LoginPage() {
         }
     }, [isRegister]);
 
-    function handleSubmit(event) {
+    function handleChange(field, value) {
+        setUserData((prev) => ({ ...prev, [field]: value }));
+        setErrors((prev) => ({ ...prev, [field]: null }));
+    }
+
+    async function handleSubmit(event) {
         event.preventDefault();
+        setErrors({});
+
         if (isRegister) {
             if (userData.senha !== senha2) {
-                alert("As senhas não coincidem!");
+                setErrors({ confirmSenha: "As senhas não coincidem!" });
                 return;
             }
 
@@ -67,100 +70,89 @@ export default function LoginPage() {
                 return;
             }
 
-            createUserAccount(userData)
-                .then((response) => {
-                    console.log("Conta criada com sucesso:", response);
-                    // Redirecionar ou mostrar mensagem de sucesso
-                    navigate('/');
-                })
-
-                .catch((error) => {
-                    if (error.type === 'validation') {
-                        setErrors(error.errors); // <- Aqui você define os erros por campo
-                    } else {
-                        console.error("Erro ao criar conta:", error);
-                        alert(`Erro ao criar conta. ${error.message}`);
-                    }
+            try {
+                await createUserAccount(userData);
+                setShowPopup(true);
+                setUserData({
+                    nome: "",
+                    email: "",
+                    plano_id: "",
+                    status: true,
+                    senha: "",
+                    tentativas_gratis_restantes: 3,
                 });
+                setSenha2("");
+
+                setTimeout(() => {
+                    setShowPopup(false);
+                    navigate('/');
+                }, 2500); // espera antes de redirecionar
+            } catch (error) {
+                if (error.type === 'validation') {
+                    setErrors(error.errors);
+                } else {
+                    console.error("Erro ao criar conta:", error);
+                    alert(`Erro ao criar conta. ${error.message}`);
+                }
+            }
         } else {
             console.log("Login com dados:", userData);
-            // Implementar lógica de login
+            // Aqui vai a lógica de login
         }
     }
 
     const topPadding = isRegister ? "pt-40" : "pt-32";
 
     return (
-        <div
-            className={`min-h-screen bg-gradient-to-b from-black via-gray-950 to-black flex items-center justify-center px-4 text-gray-100 relative ${topPadding}`}
-        >
+        <div className={`min-h-screen bg-gradient-to-b from-black via-gray-950 to-black flex items-center justify-center px-4 text-gray-100 relative ${topPadding}`}>
             <FloatingNavbar />
-            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full h-60 bg-purple-700/10 blur-3xl rounded-full pointer-events-none"></div>
+            {showPopup && <Popup message="Conta criada com sucesso!" />}
+            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full h-60 bg-purple-700/10 blur-3xl rounded-full pointer-events-none" />
 
             <div className="w-full max-w-md p-8 rounded-xl backdrop-blur bg-gray-900/60 border border-gray-700/30 shadow-md">
                 <div className="flex justify-center mb-6">
                     <img src={Logo} alt="Logo do Validador" className="h-20 w-auto" />
                 </div>
 
-                <form className="flex flex-col space-y-4" onSubmit={handleSubmit}>
+                <form className="flex flex-col space-y-4" onSubmit={handleSubmit} noValidate>
                     {isRegister && (
-                        <div>
-                            <label htmlFor="name" className="block text-sm text-gray-400 mb-1">
-                                Nome
-                            </label>
-                            <input
-                                id="name"
-                                onChange={(e) => setUserData({ ...userData, nome: e.target.value })}
-                                type="text"
-                                placeholder="Digite seu nome"
-                                className="w-full px-4 py-2 rounded-lg bg-gray-800/50 border border-gray-700/30 focus:outline-none focus:ring-2 focus:ring-purple-500/50 text-gray-100 placeholder-gray-500"
-                            />
-                            {errors.nome && <p className="text-red-500 text-sm mt-1">{errors.nome}</p>}
-                        </div>
+                        <InputField
+                            id="name"
+                            label="Nome"
+                            type="text"
+                            value={userData.nome}
+                            onChange={(e) => handleChange("nome", e.target.value)}
+                            error={errors.nome}
+                        />
                     )}
 
-                    <div>
-                        <label htmlFor="email" className="block text-sm text-gray-400 mb-1">
-                            Email
-                        </label>
-                        <input
-                            id="email"
-                            onChange={(e) => setUserData({ ...userData, email: e.target.value })}
-                            type="email"
-                            placeholder="Digite seu email"
-                            className="w-full px-4 py-2 rounded-lg bg-gray-800/50 border border-gray-700/30 focus:outline-none focus:ring-2 focus:ring-purple-500/50 text-gray-100 placeholder-gray-500"
-                        />
-                        {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
-                    </div>
+                    <InputField
+                        id="email"
+                        label="Email"
+                        type="email"
+                        value={userData.email}
+                        onChange={(e) => handleChange("email", e.target.value)}
+                        error={errors.email}
+                    />
 
-                    <div>
-                        <label htmlFor="password" className="block text-sm text-gray-400 mb-1">
-                            Senha
-                        </label>
-                        <input
-                            id="password"
-                            onChange={(e) => setUserData({ ...userData, senha: e.target.value })}
-                            type="password"
-                            placeholder="Digite sua senha"
-                            className="w-full px-4 py-2 rounded-lg bg-gray-800/50 border border-gray-700/30 focus:outline-none focus:ring-2 focus:ring-purple-500/50 text-gray-100 placeholder-gray-500"
-                        />
-                        {errors.senha && <p className="text-red-500 text-sm mt-1">{errors.senha}</p>}
-                    </div>
+                    <InputField
+                        id="password"
+                        label="Senha"
+                        type="password"
+                        value={userData.senha}
+                        onChange={(e) => handleChange("senha", e.target.value)}
+                        error={errors.senha}
+                    />
 
                     {isRegister && (
-                        <div>
-                            <label htmlFor="confirmPassword" className="block text-sm text-gray-400 mb-1">
-                                Confirmar Senha
-                            </label>
-                            <input
-                                id="confirmPassword"
-                                type="password"
-                                onChange={(e) => setSenha2(e.target.value)}
-                                placeholder="Confirme sua senha"
-                                className="w-full px-4 py-2 rounded-lg bg-gray-800/50 border border-gray-700/30 focus:outline-none focus:ring-2 focus:ring-purple-500/50 text-gray-100 placeholder-gray-500"
-                            />
-                            {errors.senha && <p className="text-red-500 text-sm mt-1">{errors.senha}</p>}
-                        </div>
+                        <InputField
+                            id="confirmPassword"
+                            label="Confirmar Senha"
+                            type="password"
+                            value={senha2}
+                            onChange={(e) => setSenha2(e.target.value)}
+                            error={errors.confirmSenha}
+                        />
                     )}
 
                     <button
@@ -175,13 +167,35 @@ export default function LoginPage() {
                     {isRegister ? "Já tem uma conta?" : "Não tem uma conta?"}{" "}
                     <button
                         type="button"
-                        onClick={() => setIsRegister(!isRegister)}
+                        onClick={() => {
+                            setIsRegister(!isRegister);
+                            setErrors({});
+                        }}
                         className="text-purple-400 font-semibold hover:underline transition"
                     >
                         {isRegister ? "Faça Login" : "Cadastre-se"}
                     </button>
                 </p>
             </div>
+        </div>
+    );
+}
+
+// Componente reutilizável de input
+function InputField({ id, label, type, value, onChange, error }) {
+    return (
+        <div>
+            <label htmlFor={id} className="block text-sm text-gray-400 mb-1">{label}</label>
+            <input
+                id={id}
+                type={type}
+                value={value}
+                onChange={onChange}
+                placeholder={`Digite seu ${label.toLowerCase()}`}
+                className={`w-full px-4 py-2 rounded-lg bg-gray-800/50 border ${error ? "border-red-500" : "border-gray-700/30"
+                    } focus:outline-none focus:ring-2 focus:ring-purple-500/50 text-gray-100 placeholder-gray-500`}
+            />
+            {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
         </div>
     );
 }

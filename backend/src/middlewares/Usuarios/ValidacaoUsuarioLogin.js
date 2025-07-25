@@ -29,7 +29,7 @@ module.exports = async function validacaoUsuarioLogin(req, res, next) {
 
         const token = jwt.sign({ id: user.id }, secret, { expiresIn: '1h' });
 
-        const dados = { email: user.email, name: user.nome, userId: user.id };
+        const dados = { email: user.email, name: user.nome, userId: user.id, tentativas: user.tentativas_gratis_restantes };
 
         return res.status(200).json({ msg: "Autenticação realizada com sucesso!", token, dados });
 

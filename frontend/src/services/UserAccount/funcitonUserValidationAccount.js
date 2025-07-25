@@ -1,9 +1,10 @@
-import axios from axios;
+import axios from "axios";
 
-export default async function functionUserValidationAccount() {
+export async function loginUser(userData) {
     try {
-        
+        const response = await axios.post("http://localhost:4444/api/usuarios/validationUser", userData);
+        return response.data;
     } catch (error) {
-        console.log(`NÃO FOI POSSIVEL VALIDAR O USUARIO! ${error}`)
+        throw error.response?.data || { message: "Erro desconhecido ao fazer login." };
     }
 }

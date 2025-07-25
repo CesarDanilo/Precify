@@ -5,6 +5,7 @@ import { createUserAccount } from "../services/UserAccount/functionUserCreateAcc
 import { fetchPlanos } from "../services/UserAccount/functionFetchPlanos";
 import { useNavigate } from 'react-router-dom';
 import { Popup } from "../components/popup";
+import { loginUser } from '../services/UserAccount/funcitonUserValidationAccount';
 
 export default function LoginPage() {
     const [isRegister, setIsRegister] = useState(false);
@@ -60,6 +61,18 @@ export default function LoginPage() {
         setErrors({});
 
         if (isRegister) {
+            const requiredFields = ["nome", "email", "senha"];
+            const missingFields = requiredFields.filter(field => !userData[field]);
+
+            if (missingFields.length > 0) {
+                const fieldErrors = {};
+                missingFields.forEach(field => {
+                    fieldErrors[field] = "Campo obrigatório";
+                });
+                setErrors(fieldErrors);
+                return;
+            }
+
             if (userData.senha !== senha2) {
                 setErrors({ confirmSenha: "As senhas não coincidem!" });
                 return;
@@ -86,7 +99,7 @@ export default function LoginPage() {
                 setTimeout(() => {
                     setShowPopup(false);
                     navigate('/');
-                }, 2500); // espera antes de redirecionar
+                }, 2500);
             } catch (error) {
                 if (error.type === 'validation') {
                     setErrors(error.errors);
@@ -96,8 +109,32 @@ export default function LoginPage() {
                 }
             }
         } else {
-            console.log("Login com dados:", userData);
-            // Aqui vai a lógica de login
+            try {
+                const res = await loginUser({
+                    email: userData.email,
+                    senha: userData.senha,
+                });
+
+                const { token, dados } = res;
+
+                if (!token || !dados) {
+                    setErrors({ login: "Credenciais inválidas." });
+                    return;
+                }
+
+                localStorage.setItem("token", token);
+                localStorage.setItem("user", JSON.stringify(dados));
+
+                setShowPopup(true);
+
+                setTimeout(() => {
+                    setShowPopup(false);
+                    navigate('/');
+                }, 1500);
+            } catch (error) {
+                console.error("Erro ao fazer login:", error);
+                setErrors({ login: "Email ou senha incorretos." });
+            }
         }
     }
 
@@ -155,6 +192,10 @@ export default function LoginPage() {
                         />
                     )}
 
+                    {errors.login && (
+                        <p className="text-red-500 text-sm mt-1 text-center">{errors.login}</p>
+                    )}
+
                     <button
                         type="submit"
                         className="px-6 py-3 bg-purple-700 rounded-full shadow hover:bg-purple-800 transition font-semibold text-white"
@@ -170,6 +211,15 @@ export default function LoginPage() {
                         onClick={() => {
                             setIsRegister(!isRegister);
                             setErrors({});
+                            setUserData({
+                                nome: "",
+                                email: "",
+                                plano_id: "",
+                                status: true,
+                                senha: "",
+                                tentativas_gratis_restantes: 3,
+                            });
+                            setSenha2("");
                         }}
                         className="text-purple-400 font-semibold hover:underline transition"
                     >

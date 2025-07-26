@@ -143,7 +143,7 @@ export default function LoginPage() {
     return (
         <div className={`min-h-screen bg-gradient-to-b from-black via-gray-950 to-black flex items-center justify-center px-4 text-gray-100 relative ${topPadding}`}>
             <FloatingNavbar />
-            {showPopup && <Popup message="Conta criada com sucesso!" />}
+            {showPopup && <Popup message="Sucesso!" />}
             <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full h-60 bg-purple-700/10 blur-3xl rounded-full pointer-events-none" />
 
             <div className="w-full max-w-md p-8 rounded-xl backdrop-blur bg-gray-900/60 border border-gray-700/30 shadow-md">

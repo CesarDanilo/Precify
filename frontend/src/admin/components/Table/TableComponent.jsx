@@ -5,7 +5,7 @@ import { UserDeleteDialog } from '../Dialogs/UserDeleteDialog';
 import { UserUpdateDialog } from '../Dialogs/UserUpdateDialog';
 
 export function TableComponent({ dados, openDeleteDialog, setOpenDeleteDialog, openUpdateDialog, setOpenUpdateDialog }) {
-    const titulos = ['Nome', 'Email', 'Plano', 'Status', 'Tentativas Gratuitas', 'Criado em', 'Ações'];
+    const titulos = ['Nome', 'Email', 'cpfCnpj', 'telefone', 'endereco', 'Plano', 'Status', 'Tentativas Gratuitas', 'Criado em', 'Ações'];
     const [planos, setPlanos] = useState([]);
     const [idToDelete, setIdToDelete] = useState(null);
     const [idToUpdate, setIdToUpdate] = useState(null);

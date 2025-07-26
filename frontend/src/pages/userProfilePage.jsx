@@ -1,20 +1,42 @@
 // src/pages/UserProfilePage.jsx
-import React from "react";
+import React, { useEffect, useState } from "react";
 import FloatingNavbar from "../components/Floating-Navbar";
 import Logo from "../assets/logo.png";
 
 export default function UserProfilePage() {
-    // Exemplo de dados do usuário (mock)
-    const user = {
-        name: "João da Silva",
-        email: "joao@email.com",
-        cpfCnpj: "123.456.789-00",
-        phone: "(11) 98765-4321",
-        address: "Rua das Flores, 123 - São Paulo, SP",
-        plano: {
-            nome: "Premium",
-            contratadoEm: "15/04/2024",
-        },
+    const [user, setUser] = useState({
+        name: "",
+        email: "",
+        cpfCnpj: "",
+        phone: "",
+        address: "",
+        plano: null
+    });
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem("user");
+        if (storedUser) {
+            try {
+                const parsedUser = JSON.parse(storedUser);
+                setUser(parsedUser);
+            } catch (error) {
+                console.error("Erro ao analisar os dados do localStorage:", error);
+            }
+        }
+    }, []);
+
+    const handleChange = (e) => {
+        const { id, value } = e.target;
+        setUser((prev) => ({
+            ...prev,
+            [id]: value
+        }));
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        localStorage.setItem("user", JSON.stringify(user));
+        alert("Informações atualizadas com sucesso!");
     };
 
     return (
@@ -26,7 +48,7 @@ export default function UserProfilePage() {
                 <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full h-60 bg-purple-700/10 blur-3xl rounded-full pointer-events-none"></div>
 
                 <div className="w-full max-w-5xl p-8 rounded-xl backdrop-blur bg-gray-900/60 border border-gray-700/30 shadow-md flex flex-col md:flex-row gap-10">
-                    {/* Lado esquerdo: informações básicas e logo */}
+                    {/* Lado esquerdo */}
                     <div className="flex flex-col items-center md:w-1/3 text-center">
                         <img
                             src={Logo}
@@ -62,84 +84,74 @@ export default function UserProfilePage() {
                         )}
                     </div>
 
-                    {/* Lado direito: formulário de informações */}
+                    {/* Lado direito */}
                     <div className="flex-1">
-                        <form className="flex flex-col space-y-5">
+                        <form className="flex flex-col space-y-5" onSubmit={handleSubmit}>
                             <div>
-                                <label
-                                    htmlFor="name"
-                                    className="block text-sm text-gray-400 mb-1"
-                                >
+                                <label htmlFor="name" className="block text-sm text-gray-400 mb-1">
                                     Nome Completo
                                 </label>
                                 <input
                                     id="name"
                                     type="text"
-                                    defaultValue={user.name}
+                                    value={user.name}
+                                    onChange={handleChange}
                                     placeholder="Digite seu nome completo"
                                     className="w-full px-4 py-2 rounded-lg bg-gray-800/50 border border-gray-700/30 focus:outline-none focus:ring-2 focus:ring-purple-500/50 text-gray-100 placeholder-gray-500"
                                 />
                             </div>
 
                             <div>
-                                <label
-                                    htmlFor="email"
-                                    className="block text-sm text-gray-400 mb-1"
-                                >
+                                <label htmlFor="email" className="block text-sm text-gray-400 mb-1">
                                     Email
                                 </label>
                                 <input
                                     id="email"
                                     type="email"
-                                    defaultValue={user.email}
+                                    value={user.email}
+                                    onChange={handleChange}
                                     placeholder="Digite seu email"
                                     className="w-full px-4 py-2 rounded-lg bg-gray-800/50 border border-gray-700/30 focus:outline-none focus:ring-2 focus:ring-purple-500/50 text-gray-100 placeholder-gray-500"
                                 />
                             </div>
 
                             <div>
-                                <label
-                                    htmlFor="cpfCnpj"
-                                    className="block text-sm text-gray-400 mb-1"
-                                >
+                                <label htmlFor="cpfCnpj" className="block text-sm text-gray-400 mb-1">
                                     CPF ou CNPJ
                                 </label>
                                 <input
                                     id="cpfCnpj"
                                     type="text"
-                                    defaultValue={user.cpfCnpj}
+                                    value={user.cpfCnpj}
+                                    onChange={handleChange}
                                     placeholder="Digite seu CPF ou CNPJ"
                                     className="w-full px-4 py-2 rounded-lg bg-gray-800/50 border border-gray-700/30 focus:outline-none focus:ring-2 focus:ring-purple-500/50 text-gray-100 placeholder-gray-500"
                                 />
                             </div>
 
                             <div>
-                                <label
-                                    htmlFor="phone"
-                                    className="block text-sm text-gray-400 mb-1"
-                                >
+                                <label htmlFor="phone" className="block text-sm text-gray-400 mb-1">
                                     Telefone
                                 </label>
                                 <input
                                     id="phone"
                                     type="tel"
-                                    defaultValue={user.phone}
+                                    value={user.phone}
+                                    onChange={handleChange}
                                     placeholder="Digite seu telefone"
                                     className="w-full px-4 py-2 rounded-lg bg-gray-800/50 border border-gray-700/30 focus:outline-none focus:ring-2 focus:ring-purple-500/50 text-gray-100 placeholder-gray-500"
                                 />
                             </div>
 
                             <div>
-                                <label
-                                    htmlFor="address"
-                                    className="block text-sm text-gray-400 mb-1"
-                                >
+                                <label htmlFor="address" className="block text-sm text-gray-400 mb-1">
                                     Endereço
                                 </label>
                                 <input
                                     id="address"
                                     type="text"
-                                    defaultValue={user.address}
+                                    value={user.address}
+                                    onChange={handleChange}
                                     placeholder="Digite seu endereço"
                                     className="w-full px-4 py-2 rounded-lg bg-gray-800/50 border border-gray-700/30 focus:outline-none focus:ring-2 focus:ring-purple-500/50 text-gray-100 placeholder-gray-500"
                                 />

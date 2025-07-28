@@ -5,12 +5,12 @@ import Logo from "../assets/logo.png";
 
 export default function UserProfilePage() {
     const [user, setUser] = useState({
-        name: "",
+        nome: "",
         email: "",
         cpfCnpj: "",
-        phone: "",
-        address: "",
-        plano: null
+        telefone: "",
+        endereco: "",
+        plano: null,
     });
 
     useEffect(() => {
@@ -29,7 +29,7 @@ export default function UserProfilePage() {
         const { id, value } = e.target;
         setUser((prev) => ({
             ...prev,
-            [id]: value
+            [id]: value,
         }));
     };
 
@@ -39,9 +39,18 @@ export default function UserProfilePage() {
         try {
             const token = localStorage.getItem("token");
 
+            // Ajustar os dados para enviar apenas os campos que o backend espera
+            const dataToSend = {
+                nome: user.nome,
+                email: user.email,
+                cpfCnpj: user.cpfCnpj,
+                telefone: user.telefone,
+                endereco: user.endereco,
+            };
+
             const response = await axios.put(
                 "http://localhost:4444/api/usuarios/updateUsers/",
-                user,
+                dataToSend,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -50,7 +59,10 @@ export default function UserProfilePage() {
                 }
             );
 
+            // Assumindo que o backend retorne o usuário atualizado nesse campo
             const updatedUser = response.data.usuarioAtualizado || response.data;
+
+            // Atualizar localStorage e estado com o usuário atualizado
             localStorage.setItem("user", JSON.stringify(updatedUser));
             setUser(updatedUser);
 
@@ -87,8 +99,9 @@ export default function UserProfilePage() {
                                     <p className="text-purple-400 font-semibold">
                                         {user.plano.nome}
                                     </p>
+                                    {/* Caso o backend retorne a data em outro formato, ajuste aqui */}
                                     <p className="text-xs text-gray-500">
-                                        Contratado em {user.plano.contratadoEm}
+                                        Contratado em {user.plano.contratadoEm || "Data não disponível"}
                                     </p>
                                 </div>
                                 <a href="/assinatura">
@@ -109,16 +122,17 @@ export default function UserProfilePage() {
                     <div className="flex-1">
                         <form className="flex flex-col space-y-5" onSubmit={handleSubmit}>
                             <div>
-                                <label htmlFor="name" className="block text-sm text-gray-400 mb-1">
+                                <label htmlFor="nome" className="block text-sm text-gray-400 mb-1">
                                     Nome Completo
                                 </label>
                                 <input
-                                    id="name"
+                                    id="nome"
                                     type="text"
-                                    value={user.name}
+                                    value={user.nome}
                                     onChange={handleChange}
                                     placeholder="Digite seu nome completo"
                                     className="w-full px-4 py-2 rounded-lg bg-gray-800/50 border border-gray-700/30 focus:outline-none focus:ring-2 focus:ring-purple-500/50 text-gray-100 placeholder-gray-500"
+                                    required
                                 />
                             </div>
 
@@ -133,6 +147,7 @@ export default function UserProfilePage() {
                                     onChange={handleChange}
                                     placeholder="Digite seu email"
                                     className="w-full px-4 py-2 rounded-lg bg-gray-800/50 border border-gray-700/30 focus:outline-none focus:ring-2 focus:ring-purple-500/50 text-gray-100 placeholder-gray-500"
+                                    required
                                 />
                             </div>
 
@@ -151,13 +166,13 @@ export default function UserProfilePage() {
                             </div>
 
                             <div>
-                                <label htmlFor="phone" className="block text-sm text-gray-400 mb-1">
+                                <label htmlFor="telefone" className="block text-sm text-gray-400 mb-1">
                                     Telefone
                                 </label>
                                 <input
-                                    id="phone"
+                                    id="telefone"
                                     type="tel"
-                                    value={user.phone}
+                                    value={user.telefone}
                                     onChange={handleChange}
                                     placeholder="Digite seu telefone"
                                     className="w-full px-4 py-2 rounded-lg bg-gray-800/50 border border-gray-700/30 focus:outline-none focus:ring-2 focus:ring-purple-500/50 text-gray-100 placeholder-gray-500"
@@ -165,13 +180,13 @@ export default function UserProfilePage() {
                             </div>
 
                             <div>
-                                <label htmlFor="address" className="block text-sm text-gray-400 mb-1">
+                                <label htmlFor="endereco" className="block text-sm text-gray-400 mb-1">
                                     Endereço
                                 </label>
                                 <input
-                                    id="address"
+                                    id="endereco"
                                     type="text"
-                                    value={user.address}
+                                    value={user.endereco}
                                     onChange={handleChange}
                                     placeholder="Digite seu endereço"
                                     className="w-full px-4 py-2 rounded-lg bg-gray-800/50 border border-gray-700/30 focus:outline-none focus:ring-2 focus:ring-purple-500/50 text-gray-100 placeholder-gray-500"

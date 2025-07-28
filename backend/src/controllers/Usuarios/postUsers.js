@@ -9,8 +9,14 @@ module.exports = async function postUsers(req, res) {
             nome: z.string().min(4, 'Nome é obrigatório'),
             email: z.string().email('Email inválido'),
             senha: z.string().min(6, 'Senha deve ter pelo menos 6 caracteres'),
-            plano_id: z.string().optional().default('421bd7f1-15e6-470a-9865-3843b632d758'),
-            status: z.boolean().default(true),
+
+            // Campos novos como opcionais
+            cpfCnpj: z.string().min(11, 'CPF ou CNPJ inválido').optional(),
+            telefone: z.string().min(8, 'Telefone inválido').optional(),
+            endereco: z.string().min(5, 'Endereço inválido').optional(),
+
+            plano_id: z.string().optional().default('6d88452e-0539-4391-b343-95f23c5f24bc'),
+            status: z.boolean().optional().default(true),
             tentativas_gratis_restantes: z.number().optional().default(3)
         });
 
@@ -24,8 +30,6 @@ module.exports = async function postUsers(req, res) {
         }
 
         const usuario = validation.data;
-
-        console.log('✅ DADOS VALIDADOS COM SUCESSO:', usuario);
 
         usuario.id = uuidv4();
         usuario.senha = await bcrypt.hash(usuario.senha, 10);

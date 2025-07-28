@@ -1,5 +1,5 @@
-// src/pages/UserProfilePage.jsx
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import FloatingNavbar from "../components/Floating-Navbar";
 import Logo from "../assets/logo.png";
 
@@ -33,10 +33,32 @@ export default function UserProfilePage() {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        localStorage.setItem("user", JSON.stringify(user));
-        alert("Informações atualizadas com sucesso!");
+
+        try {
+            const token = localStorage.getItem("token");
+
+            const response = await axios.put(
+                "http://localhost:4444/api/usuarios/updateUsers/",
+                user,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+
+            const updatedUser = response.data.usuarioAtualizado || response.data;
+            localStorage.setItem("user", JSON.stringify(updatedUser));
+            setUser(updatedUser);
+
+            alert("Informações atualizadas com sucesso!");
+        } catch (error) {
+            console.error("Erro ao atualizar o usuário:", error);
+            alert("Erro ao atualizar. Verifique os dados ou tente novamente.");
+        }
     };
 
     return (
@@ -44,7 +66,6 @@ export default function UserProfilePage() {
             <FloatingNavbar />
 
             <div className="flex-grow flex items-center justify-center px-4 py-16 mt-16">
-                {/* Efeito de fundo */}
                 <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full h-60 bg-purple-700/10 blur-3xl rounded-full pointer-events-none"></div>
 
                 <div className="w-full max-w-5xl p-8 rounded-xl backdrop-blur bg-gray-900/60 border border-gray-700/30 shadow-md flex flex-col md:flex-row gap-10">

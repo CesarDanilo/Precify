@@ -14,7 +14,7 @@ export function TableComponent({ dados, openDeleteDialog, setOpenDeleteDialog, o
         const fetchPlanos = async () => {
             try {
                 const planos = await functionFetchPlanos();
-                setPlanos(planos)
+                setPlanos(planos);
                 console.log("Planos fetched successfully:", planos);
             } catch (error) {
                 console.error("Error fetching planos:", error);
@@ -30,10 +30,9 @@ export function TableComponent({ dados, openDeleteDialog, setOpenDeleteDialog, o
 
     function handleCloseDeleteDialog() {
         setOpenDeleteDialog(false);
+        setIdToDelete(null);
     }
 
-    // function to handle opening the update dialog
-    // and setting the id to update
     function handleOpenUpdateDialog(id) {
         setOpenUpdateDialog(true);
         setIdToUpdate(id);
@@ -41,16 +40,13 @@ export function TableComponent({ dados, openDeleteDialog, setOpenDeleteDialog, o
 
     function handleCloseUpdateDialog() {
         setOpenUpdateDialog(false);
+        setIdToUpdate(null);
     }
 
     return (
-        <div className="w-full overflow-x-auto rounded-2xl shadow-lg  bg-white">
-            {
-                openDeleteDialog && <UserDeleteDialog id={idToDelete} handleCloseDeleteDialog={handleCloseDeleteDialog} />
-            }
-            {
-                openUpdateDialog && <UserUpdateDialog id={idToUpdate} handleCloseUpdateDialog={handleCloseUpdateDialog} />
-            }
+        <div className="w-full overflow-x-auto rounded-2xl shadow-lg bg-white">
+            {openDeleteDialog && <UserDeleteDialog id={idToDelete} handleCloseDeleteDialog={handleCloseDeleteDialog} />}
+            {openUpdateDialog && <UserUpdateDialog id={idToUpdate} handleCloseUpdateDialog={handleCloseUpdateDialog} />}
             <table className="min-w-full text-sm text-black">
                 <thead className="bg-gray-100 border-b border-gray-200">
                     <tr>
@@ -67,37 +63,31 @@ export function TableComponent({ dados, openDeleteDialog, setOpenDeleteDialog, o
 
                 <tbody className="divide-y divide-gray-200">
                     {dados.map((data, index) => (
-                        <tr
-                            key={index}
-                            className="hover:bg-gray-50 transition-colors duration-200"
-                        >
-                            {/* <td className="px-6 py-4 text-gray-700">{data.id}</td> */}
+                        <tr key={index} className="hover:bg-gray-50 transition-colors duration-200">
                             <td className="px-6 py-4 text-gray-900">{data.nome}</td>
                             <td className="px-6 py-4 text-gray-700">{data.email}</td>
-                            <td className="px-6 py-4 text-gray-600">
+                            <td className="px-6 py-4 text-gray-700">{data.cpfCnpj || '-'}</td>
+                            <td className="px-6 py-4 text-gray-700">{data.telefone || '-'}</td>
+                            <td className="px-6 py-4 text-gray-700">{data.endereco || '-'}</td>
+                            <td className="px-6 py-4 text-gray-700">
                                 {planos.length > 0
-                                    ? (planos.find(plano => plano.id === data.plano_id)?.nome || 'Plano não encontrado')
+                                    ? planos.find(plano => plano.id === data.plano_id)?.nome || 'Plano não encontrado'
                                     : 'Carregando planos...'}
                             </td>
                             <td className="px-6 py-4">
                                 <span
-                                    className={`text-xs font-semibold px-3 py-1 rounded-full ${data.status
-                                        ? 'bg-green-100 text-green-700'
-                                        : 'bg-red-100 text-red-700'
+                                    className={`text-xs font-semibold px-3 py-1 rounded-full ${data.status ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
                                         }`}
                                 >
                                     {data.status ? 'Ativo' : 'Inativo'}
                                 </span>
                             </td>
-                            <td className="text-center align-middle whitespace-nowrap text-gray-700">
-                                {data.tentativas_gratis_restantes}
-                            </td>
+                            <td className="px-6 py-4 text-center text-gray-700">{data.tentativas_gratis_restantes}</td>
                             <td className="px-6 py-4 text-gray-500">
                                 {new Date(data.createdAt).toLocaleDateString('pt-BR')}
                             </td>
                             <td className="px-6 py-4">
                                 <div className="flex items-center justify-end gap-2">
-                                    {/* Botão Editar */}
                                     <button
                                         type="button"
                                         onClick={() => handleOpenUpdateDialog(data.id)}
@@ -107,7 +97,6 @@ export function TableComponent({ dados, openDeleteDialog, setOpenDeleteDialog, o
                                         <PencilSquareIcon className="w-5 h-5" />
                                     </button>
 
-                                    {/* Botão Deletar */}
                                     <button
                                         type="button"
                                         onClick={() => handleOpenDeleteDialog(data.id)}
@@ -123,5 +112,5 @@ export function TableComponent({ dados, openDeleteDialog, setOpenDeleteDialog, o
                 </tbody>
             </table>
         </div>
-    )
+    );
 }

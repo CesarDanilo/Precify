@@ -24,20 +24,23 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             unique: true,
         },
-        cpfCnpj: {
+        senha: {
             type: DataTypes.STRING,
             allowNull: false,
+        },
+        cpfCnpj: {
+            type: DataTypes.STRING,
+            allowNull: true, // antes: false
             unique: true,
-
         },
         telefone: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true, // antes: false
             unique: true,
         },
         endereco: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true, // antes: false
         },
         plano_id: {
             type: DataTypes.STRING,

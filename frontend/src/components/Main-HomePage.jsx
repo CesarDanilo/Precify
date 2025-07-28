@@ -11,7 +11,7 @@ export default function MainHomePage() {
                 "Histórico de 30 dias",
                 "Suporte básico"
             ],
-            bgColor: "bg-gray-900/40" // Minimalist, less emphasized
+            // bgColor: "bg-gray-900/40" // Minimalist, less emphasized
         },
         {
             name: "Pro Essencial", // Renamed for better perception
@@ -36,7 +36,7 @@ export default function MainHomePage() {
                 "Suporte 24/7 exclusivo",
                 "Análise de concorrência profunda"
             ],
-            bgColor: "bg-purple-700/70 border-purple-500/60" // Highlighted
+            // bgColor: "bg-purple-700/70 border-purple-500/60" // Highlighted
         }
     ];
 

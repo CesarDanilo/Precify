@@ -16,7 +16,7 @@ export default function FloatingNavbar() {
 
             try {
                 const parsedUser = JSON.parse(user);
-                const tentativasRestantes = parsedUser.tentativas_gratis_restantes;
+                const tentativasRestantes = parsedUser.tentativas || 0;
                 setTentativas(tentativasRestantes);
             } catch (error) {
                 console.error("Erro ao ler dados do usuário:", error);

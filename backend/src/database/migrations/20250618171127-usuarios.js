@@ -18,6 +18,21 @@ module.exports = {
         allowNull: false,
         unique: true,
       },
+      cpfCnpj: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        unique: true,
+      },
+      telefone: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        unique: true,
+      },
+      endereco: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        unique: true,
+      },
       senha: {
         type: Sequelize.STRING,
         allowNull: false,

@@ -4,7 +4,9 @@ import FloatingNavbar from "../components/Floating-Navbar";
 import Logo from "../assets/logo.png";
 
 export default function UserProfilePage() {
+    const [refresh, setRefresh] = useState(false);
     const [user, setUser] = useState({
+        id: null,
         nome: "",
         email: "",
         cpfCnpj: "",
@@ -13,6 +15,7 @@ export default function UserProfilePage() {
         plano: null,
     });
 
+    // Carrega usuário do localStorage
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
         if (storedUser) {
@@ -20,55 +23,55 @@ export default function UserProfilePage() {
                 const parsedUser = JSON.parse(storedUser);
                 setUser(parsedUser);
             } catch (error) {
-                console.error("Erro ao analisar os dados do localStorage:", error);
+                console.error("Erro ao ler usuário do localStorage:", error);
             }
         }
-    }, []);
+    }, [refresh]);
 
+    // Atualiza campos do formulário
     const handleChange = (e) => {
         const { id, value } = e.target;
-        setUser((prev) => ({
-            ...prev,
+        setUser((prevUser) => ({
+            ...prevUser,
             [id]: value,
         }));
     };
 
+    // Envia dados atualizados ao servidor
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!user.id) {
+            alert("ID do usuário não encontrado. Recarregue a página.");
+            return;
+        }
 
         try {
             const token = localStorage.getItem("token");
 
-            // Ajustar os dados para enviar apenas os campos que o backend espera
-            const dataToSend = {
-                nome: user.nome,
-                email: user.email,
-                cpfCnpj: user.cpfCnpj,
-                telefone: user.telefone,
-                endereco: user.endereco,
-            };
+            const dataToSend = {};
+            ["nome", "email", "cpfCnpj", "telefone", "endereco"].forEach((key) => {
+                if (user[key]) dataToSend[key] = user[key];
+            });
 
-            const response = await axios.put(
-                "http://localhost:4444/api/usuarios/updateUsers/",
+            const { data } = await axios.put(
+                `http://localhost:4444/api/usuarios/updateUsers/${user.id}`,
                 dataToSend,
                 {
                     headers: {
-                        Authorization: `Bearer ${token}`,
                         "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
                     },
                 }
             );
 
-            // Assumindo que o backend retorne o usuário atualizado nesse campo
-            const updatedUser = response.data.usuarioAtualizado || response.data;
-
-            // Atualizar localStorage e estado com o usuário atualizado
+            const updatedUser = data.usuarioAtualizado || data;
             localStorage.setItem("user", JSON.stringify(updatedUser));
             setUser(updatedUser);
-
-            alert("Informações atualizadas com sucesso!");
+            // alert("Informações atualizadas com sucesso!");
+            setRefresh((prev) => !prev);
         } catch (error) {
-            console.error("Erro ao atualizar o usuário:", error);
+            console.error("Erro ao atualizar:", error.response?.data || error.message);
             alert("Erro ao atualizar. Verifique os dados ou tente novamente.");
         }
     };
@@ -78,37 +81,26 @@ export default function UserProfilePage() {
             <FloatingNavbar />
 
             <div className="flex-grow flex items-center justify-center px-4 py-16 mt-16">
-                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full h-60 bg-purple-700/10 blur-3xl rounded-full pointer-events-none"></div>
+                {/* Efeito de fundo */}
+                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full h-60 bg-purple-700/10 blur-3xl rounded-full pointer-events-none" />
 
                 <div className="w-full max-w-5xl p-8 rounded-xl backdrop-blur bg-gray-900/60 border border-gray-700/30 shadow-md flex flex-col md:flex-row gap-10">
-                    {/* Lado esquerdo */}
+                    {/* Lado esquerdo: Perfil */}
                     <div className="flex flex-col items-center md:w-1/3 text-center">
-                        <img
-                            src={Logo}
-                            alt="Logo do Validador"
-                            className="h-20 w-auto mb-4"
-                        />
-                        <h1 className="text-2xl font-bold text-purple-400 mb-2">
-                            Perfil do Usuário
-                        </h1>
+                        <img src={Logo} alt="Logo do Validador" className="h-20 w-auto mb-4" />
+                        <h1 className="text-2xl font-bold text-purple-400 mb-2">Perfil do Usuário</h1>
 
                         {user.plano ? (
                             <div className="mt-4 flex flex-col items-center gap-2">
-                                <div>
-                                    <h2 className="text-sm text-gray-400">Plano Atual</h2>
-                                    <p className="text-purple-400 font-semibold">
-                                        {user.plano.nome}
-                                    </p>
-                                    {/* Caso o backend retorne a data em outro formato, ajuste aqui */}
-                                    <p className="text-xs text-gray-500">
-                                        Contratado em {user.plano.contratadoEm || "Data não disponível"}
-                                    </p>
-                                </div>
+                                <h2 className="text-sm text-gray-400">Plano Atual</h2>
+                                <p className="text-purple-400 font-semibold">
+                                    {user.plano.nome || "Plano não informado"}
+                                </p>
+                                <p className="text-xs text-gray-500">
+                                    Contratado em: {user.plano.contratadoEm || "Data indisponível"}
+                                </p>
                                 <a href="/assinatura">
-                                    <button
-                                        type="button"
-                                        className="px-3 py-1 text-xs text-purple-400 border border-purple-400 rounded-full hover:bg-purple-700/20 transition"
-                                    >
+                                    <button className="px-3 py-1 text-xs text-purple-400 border border-purple-400 rounded-full hover:bg-purple-700/20 transition">
                                         Alterar Plano
                                     </button>
                                 </a>
@@ -118,80 +110,31 @@ export default function UserProfilePage() {
                         )}
                     </div>
 
-                    {/* Lado direito */}
+                    {/* Lado direito: Formulário */}
                     <div className="flex-1">
                         <form className="flex flex-col space-y-5" onSubmit={handleSubmit}>
-                            <div>
-                                <label htmlFor="nome" className="block text-sm text-gray-400 mb-1">
-                                    Nome Completo
-                                </label>
-                                <input
-                                    id="nome"
-                                    type="text"
-                                    value={user.nome}
-                                    onChange={handleChange}
-                                    placeholder="Digite seu nome completo"
-                                    className="w-full px-4 py-2 rounded-lg bg-gray-800/50 border border-gray-700/30 focus:outline-none focus:ring-2 focus:ring-purple-500/50 text-gray-100 placeholder-gray-500"
-                                    required
-                                />
-                            </div>
-
-                            <div>
-                                <label htmlFor="email" className="block text-sm text-gray-400 mb-1">
-                                    Email
-                                </label>
-                                <input
-                                    id="email"
-                                    type="email"
-                                    value={user.email}
-                                    onChange={handleChange}
-                                    placeholder="Digite seu email"
-                                    className="w-full px-4 py-2 rounded-lg bg-gray-800/50 border border-gray-700/30 focus:outline-none focus:ring-2 focus:ring-purple-500/50 text-gray-100 placeholder-gray-500"
-                                    required
-                                />
-                            </div>
-
-                            <div>
-                                <label htmlFor="cpfCnpj" className="block text-sm text-gray-400 mb-1">
-                                    CPF ou CNPJ
-                                </label>
-                                <input
-                                    id="cpfCnpj"
-                                    type="text"
-                                    value={user.cpfCnpj}
-                                    onChange={handleChange}
-                                    placeholder="Digite seu CPF ou CNPJ"
-                                    className="w-full px-4 py-2 rounded-lg bg-gray-800/50 border border-gray-700/30 focus:outline-none focus:ring-2 focus:ring-purple-500/50 text-gray-100 placeholder-gray-500"
-                                />
-                            </div>
-
-                            <div>
-                                <label htmlFor="telefone" className="block text-sm text-gray-400 mb-1">
-                                    Telefone
-                                </label>
-                                <input
-                                    id="telefone"
-                                    type="tel"
-                                    value={user.telefone}
-                                    onChange={handleChange}
-                                    placeholder="Digite seu telefone"
-                                    className="w-full px-4 py-2 rounded-lg bg-gray-800/50 border border-gray-700/30 focus:outline-none focus:ring-2 focus:ring-purple-500/50 text-gray-100 placeholder-gray-500"
-                                />
-                            </div>
-
-                            <div>
-                                <label htmlFor="endereco" className="block text-sm text-gray-400 mb-1">
-                                    Endereço
-                                </label>
-                                <input
-                                    id="endereco"
-                                    type="text"
-                                    value={user.endereco}
-                                    onChange={handleChange}
-                                    placeholder="Digite seu endereço"
-                                    className="w-full px-4 py-2 rounded-lg bg-gray-800/50 border border-gray-700/30 focus:outline-none focus:ring-2 focus:ring-purple-500/50 text-gray-100 placeholder-gray-500"
-                                />
-                            </div>
+                            {[
+                                { id: "nome", label: "Nome Completo", type: "text", required: true },
+                                { id: "email", label: "Email", type: "email", required: true },
+                                { id: "cpfCnpj", label: "CPF ou CNPJ", type: "text" },
+                                { id: "telefone", label: "Telefone", type: "tel" },
+                                { id: "endereco", label: "Endereço", type: "text" },
+                            ].map(({ id, label, type, required }) => (
+                                <div key={id}>
+                                    <label htmlFor={id} className="block text-sm text-gray-400 mb-1">
+                                        {label}
+                                    </label>
+                                    <input
+                                        id={id}
+                                        type={type}
+                                        value={user[id] || ""}
+                                        onChange={handleChange}
+                                        placeholder={`Digite seu ${label.toLowerCase()}`}
+                                        required={required}
+                                        className="w-full px-4 py-2 rounded-lg bg-gray-800/50 border border-gray-700/30 focus:outline-none focus:ring-2 focus:ring-purple-500/50 text-gray-100 placeholder-gray-500"
+                                    />
+                                </div>
+                            ))}
 
                             <button
                                 type="submit"

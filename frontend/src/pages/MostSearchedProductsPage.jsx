@@ -1,12 +1,26 @@
-import React from "react";
+import React, { useMemo } from "react";
 import FloatingNavbar from "../components/Floating-Navbar";
 import PlanUpgradePrompt from "../components/PlanUpgradePrompt";
 
-// Simulação do plano do usuário
-const userPlan = "pro"; // Altere para "pro", "premium", etc., se for o caso
-const userHasFullAccess = userPlan !== "gratis";
-
 export default function MostSearchedProductsPage() {
+    // Recupera o plano do localStorage
+    const userPlan = useMemo(() => {
+        try {
+            const user = JSON.parse(localStorage.getItem("user"));
+            // Ensure the plan name is converted to lowercase for consistent comparison
+            return user?.plano?.nome?.toLowerCase() || "gratis";
+        } catch {
+            return "gratis";
+        }
+    }, []);
+
+    // Define a list of free plan names (in lowercase)
+    const freePlans = ["gratis", "free"];
+
+    // Verifica se o usuário tem acesso total
+    // User has full access if their plan is NOT in the list of free plans
+    const userHasFullAccess = !freePlans.includes(userPlan);
+
     const mostSearchedProducts = [
         {
             id: 1,
@@ -49,7 +63,7 @@ export default function MostSearchedProductsPage() {
         <div className="min-h-screen bg-gradient-to-b from-black via-gray-950 to-black px-4 text-gray-100 relative pt-32">
             <FloatingNavbar />
 
-            {/* Se não tiver acesso completo, mostrar o overlay de upgrade */}
+            {/* Display PlanUpgradePrompt only if the user does NOT have full access */}
             {!userHasFullAccess && <PlanUpgradePrompt />}
 
             {/* Efeito de fundo */}

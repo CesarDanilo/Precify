@@ -63,16 +63,18 @@ export default function MainHomePage() {
 
             {/* "Why Use It" Section - Short, punchy, problem/solution */}
             <section className="relative z-10 w-full max-w-3xl p-6 rounded-xl backdrop-blur-md bg-gray-900/60 border border-gray-700/30 shadow-2xl text-left mx-auto mb-20">
-                <h2 className="text-3xl font-bold text-purple-400 mb-5 text-center">Pare de Chutar Preços. Comece a Vender Mais.</h2>
+                <h2 className="text-3xl font-bold text-purple-400 mb-5 text-center">
+                    Pare de Chutar Preços. **Comece a Vender Mais.**
+                </h2>
                 <div className="space-y-4 text-gray-300 text-lg">
                     <p>
-                        📈 Nosso SaaS **elimina as incertezas**. Analise a concorrência, receba alertas de oportunidades e **descubra o preço ideal** para cada produto.
+                        📈 Nosso SaaS **elimina as incertezas**. Analise a concorrência, receba alertas de oportunidades e **descubra o preço ideal** para cada produto. Com dados em mãos, você **define estratégias vencedoras**.
                     </p>
                     <p>
-                        ⏰ **Poupe horas** de pesquisa manual. Deixe o Validador fazer o trabalho pesado enquanto você foca no que realmente importa: **crescer seu negócio**.
+                        ⏰ **Poupe horas** de pesquisa manual. Deixe o Validador fazer o trabalho pesado enquanto você foca no que realmente importa: **escalar seu negócio** e **maximizar lucros**.
                     </p>
                     <p className="text-purple-300 font-medium mt-6">
-                        ✨ Curioso? Veja como é simples no nosso painel abaixo:
+                        ✨ Curioso? **Explore o potencial** do Validador no nosso painel abaixo:
                     </p>
                 </div>
             </section>

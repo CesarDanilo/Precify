@@ -15,7 +15,7 @@ export default function MainHomePage() {
         },
         {
             name: "Pro Essencial", // Renamed for better perception
-            price: "R$ 29/mês",
+            price: "R$ 9,90/mês",
             features: [
                 "Monitore até 50 produtos",
                 "Alertas diários (e-mail & push)",
@@ -27,7 +27,7 @@ export default function MainHomePage() {
         },
         {
             name: "Pro Ilimitado", // Renamed for ultimate perception
-            price: "R$ 99/mês",
+            price: "R$ 19,90/mês",
             features: [
                 "Monitoramento ILIMITADO",
                 "Alertas em tempo real (e-mail, push, SMS)",

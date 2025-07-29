@@ -1,4 +1,38 @@
+import React, { useState } from "react";
+
+// Componente auxiliar para renderizar cada bandeira de pagamento
+// Isso ajuda a gerenciar o estado de fallback para cada imagem individualmente
+const PaymentFlagItem = ({ brand }) => {
+    // Estado para controlar se o fallback (SVG) deve ser mostrado
+    const [showFallback, setShowFallback] = useState(false);
+
+    return (
+        <div
+            className="h-6 w-10 flex items-center justify-center transition-all duration-200 hover:scale-110"
+            title={brand.name} // Tooltip ao passar o mouse
+            aria-label={`Método de pagamento: ${brand.name}`} // Para acessibilidade
+        >
+            {showFallback ? (
+                // Se showFallback for true, renderiza o SVG de fallback
+                brand.fallback
+            ) : (
+                // Caso contrário, tenta renderizar a imagem
+                <img
+                    src={brand.icon}
+                    alt={brand.name}
+                    className="h-full w-full object-contain"
+                    // No caso de erro ao carregar a imagem, define showFallback para true
+                    onError={() => setShowFallback(true)}
+                    loading="lazy" // Otimização: carrega a imagem apenas quando visível
+                />
+            )}
+        </div>
+    );
+};
+
 const PaymentFlags = () => {
+    // Array de objetos com as marcas de cartão e métodos de pagamento.
+    // Inclui a URL do ícone e um SVG de fallback para garantir que algo seja exibido.
     const cardBrands = [
         {
             name: 'Visa',
@@ -22,37 +56,6 @@ const PaymentFlags = () => {
                 </svg>
             )
         },
-        // {
-        //     name: 'Elo',
-        //     icon: 'https://upload.wikimedia.org/wikipedia/commons/7/71/Elo_logo.png',
-        //     fallback: (
-        //         <svg viewBox="0 0 24 24" fill="none" className="h-6 w-10">
-        //             <path d="M12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16Z" fill="#00A4E0" />
-        //             <path d="M12 14C13.1046 14 14 13.1046 14 12C14 10.8954 13.1046 10 12 10C10.8954 10 10 10.8954 10 12C10 13.1046 10.8954 14 12 14Z" fill="white" />
-        //         </svg>
-        //     )
-        // },
-        // {
-        //     name: 'American Express',
-        //     icon: 'https://upload.wikimedia.org/wikipedia/commons/3/30/American_Express_logo.svg',
-        //     fallback: (
-        //         <svg viewBox="0 0 24 24" fill="none" className="h-6 w-10">
-        //             <path d="M5 8H19V16H5V8Z" fill="#016FD0" />
-        //             <path d="M8 10L6 12L8 14H10L8 12L10 10H8Z" fill="white" />
-        //             <path d="M14 10L12 12L14 14H16L14 12L16 10H14Z" fill="white" />
-        //         </svg>
-        //     )
-        // },
-        // {
-        //     name: 'Hipercard',
-        //     icon: 'https://upload.wikimedia.org/wikipedia/commons/9/9a/Hipercard_logo.svg',
-        //     fallback: (
-        //         <svg viewBox="0 0 24 24" fill="none" className="h-6 w-10">
-        //             <path d="M12 8L6 16H18L12 8Z" fill="#EE2A7B" />
-        //             <path d="M12 11L9.5 15H14.5L12 11Z" fill="white" />
-        //         </svg>
-        //     )
-        // },
         {
             name: 'PIX',
             icon: 'https://www.bcb.gov.br/content/estabilidadefinanceira/piximg/logo_pix.png',
@@ -65,27 +68,19 @@ const PaymentFlags = () => {
     ];
 
     return (
-        <div className="flex flex-wrap items-center justify-center gap-3 py-4">
-            {/* <span className="text-sm text-gray-400 mr-2">Aceitamos:</span> */}
+        // Container principal com estilo glassmorphism (blur, borda, sombra e fundo semitransparente)
+        // Posicionado centralmente na parte inferior da página.
+        <div className="max-w-xl mx-auto mb-8 p-4 rounded-xl backdrop-blur-sm bg-gray-900/60 border border-gray-700/30 shadow-lg text-center">
+            {/* Título para a seção de métodos de pagamento */}
+            <h3 className="text-gray-400 text-sm mb-4 font-semibold">Métodos de Pagamento Aceitos</h3>
 
-            {cardBrands.map((brand) => (
-                <div
-                    key={brand.name}
-                    className="h-6 w-10 flex items-center justify-center"
-                    title={brand.name}
-                >
-                    <img
-                        src={brand.icon}
-                        alt={brand.name}
-                        className="h-full w-full object-contain"
-                        onError={(e) => {
-                            e.target.onerror = null;
-                            e.target.parentNode.innerHTML = '';
-                            e.target.parentNode.appendChild(brand.fallback);
-                        }}
-                    />
-                </div>
-            ))}
+            {/* Container flexível para as bandeiras, centralizando e adicionando espaçamento */}
+            <div className="flex flex-wrap items-center justify-center gap-3">
+                {cardBrands.map((brand) => (
+                    // Renderiza cada bandeira usando o componente auxiliar PaymentFlagItem
+                    <PaymentFlagItem key={brand.name} brand={brand} />
+                ))}
+            </div>
         </div>
     );
 };

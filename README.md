@@ -72,17 +72,3 @@ O escopo do **Produto Mínimo Viável (MVP)** foca em resolver a dor principal d
 * **⚙️ Painel de Administração:** Uma área restrita para o gerenciamento de usuários, planos e status do sistema.
 
 ---
-
-## 🛠️ Arquitetura e Tech Stack
-
-A arquitetura foi planejada para ser modular, escalável e de fácil manutenção, separando as responsabilidades do frontend, backend e dos workers.
-
-````mermaid
-graph TD
-    A["Frontend: React.js"] -->|Requisições API| B["Backend: Node.js/Express"]
-    B --> C["Banco de Dados: PostgreSQL"]
-    B --> D["Serviço de Email: SendGrid/Mailgun"]
-    B --> E["Gateway de Pagamento: Stripe/PagSeguro"]
-    B -- Aciona Job --> F["Workers de Scraping: Node.js"]
-    F -->|Salva Dados| C
-    F -->|Coleta Dados| G["Sites Concorrentes"]

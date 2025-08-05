@@ -3,14 +3,15 @@ const puppeteer = require('puppeteer');
 module.exports = async function parseAmazon(req, res) {
   const browser = await puppeteer.launch({ headless: true });
   const page = await browser.newPage();
-  const { produto } = req.query;
+  const product = req.query.product;
+
   try {
     await page.goto('https://www.amazon.com.br/', { waitUntil: 'domcontentloaded' });
 
     // Digita o nome do produto
-    await page.type('#twotabsearchtextbox', produto);
+    await page.type('#twotabsearchtextbox', product);
 
-    // Clica em "Buscar" e espera a nova página
+    // Clica em "Buscar" e espera a navegação
     await Promise.all([
       page.click('input.nav-input[type="submit"]'),
       page.waitForNavigation({ waitUntil: 'domcontentloaded' }),
@@ -27,7 +28,11 @@ module.exports = async function parseAmazon(req, res) {
         const precoDecimal = item.querySelector('.a-price .a-price-fraction')?.textContent.trim() || '';
         const preco = precoInteiro ? `R$ ${precoInteiro},${precoDecimal}` : 'Sem preço';
 
-        const linkRelativo = item.querySelector('h2 a')?.getAttribute('href') || '';
+        // Seletor atualizado para pegar o link correto
+        const linkRelativo = item.querySelector('a.a-link-normal.s-no-outline')?.getAttribute('href')
+          || item.querySelector('a')?.getAttribute('href')
+          || '';
+
         const linkCompleto = linkRelativo ? `https://www.amazon.com.br${linkRelativo}` : 'Sem link';
 
         const imagem = item.querySelector('img.s-image')?.getAttribute('src') || 'Sem imagem';
@@ -35,18 +40,19 @@ module.exports = async function parseAmazon(req, res) {
         produtos.push({ nome, preco, link: linkCompleto, imagem });
       });
 
-      return produtos.slice(0, 5); // Retorna apenas os 5 primeiros
+      return produtos.slice(0, 5); // Retorna os 5 primeiros produtos
     });
 
     await browser.close();
 
     return res.status(200).json({
       data: resultados
-    })
+    });
 
   } catch (erro) {
+    await browser.close();
     return res.status(500).json({
-      error: erro
-    })
+      error: erro.message || 'Erro inesperado ao buscar na Amazon'
+    });
   }
-}
+};

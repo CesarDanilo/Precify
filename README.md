@@ -18,7 +18,7 @@ O **Precify** é uma solução SaaS desenhada para pequenos e médios lojistas q
 
 ---
 
-## 🎨 Telas e Design da Interface (UI/UX)
+## Telas e Design da Interface (UI/UX)
 
 A interface foi pensada para ser limpa, intuitiva e focada em entregar a informação mais crítica para o lojista de forma rápida e acionável.
 
